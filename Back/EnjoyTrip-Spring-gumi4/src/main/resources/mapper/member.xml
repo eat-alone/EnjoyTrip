@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.trip.member.mapper.MemberMapper">
+
+	<!-- 로그인  -->
+	<resultMap type="memberDto" id="member">
+		<result column="user_id" property="userId"/>
+		<result column="user_password" property="userPwd"/>
+	</resultMap>
+	
+	<!-- 회원가입 -->
+	<resultMap type="memberDto" id="memberAll" extends="member">
+		<result column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_password" property="userPwd"/>
+		<result column="join_date" property="joinDate"/>
+	</resultMap>
+
+
+	<!-- 아이디 중복 체크 -->
+	<select id="idCheck" parameterType="memberDto" resultType="int">
+		select count(user_id)
+		from members
+		where user_id = #{userId}
+	</select>
+
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="memberDto">
+		insert into members (user_id, user_name, user_password, join_date)
+		values (#{userId}, #{userName}, #{userPwd}, now())
+	</insert>
+
+	<!-- 로그인 -->
+	<select id="login" parameterType="memberDto" resultMap="memberAll">
+		select *
+		from members
+		where user_id = #{userId} and user_password = #{userPwd}
+	</select>
+	
+	<!-- 유저 한명 조회 -->
+	<select id="getMember" parameterType="string" resultMap="memberAll">
+		select user_id, user_name, user_password, join_date
+		from members
+		where user_id = #{userId}
+	</select> 
+	
+	<!-- 회원탈퇴 -->
+	<delete id="deleteMember" parameterType="String">
+		delete from members
+		where user_id = #{userId}
+	</delete>
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateMember" parameterType="memberDto">
+		update members
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userPwd != null">user_password = #{userPwd},</if>
+			<if test="userName != null">user_name = #{userName},</if>
+		</trim>
+		where user_id = #{userId}
+	</update>
+	
+	
+	<!-- ADMIN -->
+	<!-- <select id="listMember" resultMap="memberAll">
+		select user_name, user_id, user_password, join_date
+		from members
+		order by join_date
+	</select> -->
+	
+	
+	
+	
+	
+</mapper>
