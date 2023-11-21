@@ -30,7 +30,7 @@ const router = createRouter({
           component: BoardDetail,
         },
         {
-          path: "write/",
+          path: "write/:type/:articleno",
           name: "board-write",
           component: BoardWrite,
         },

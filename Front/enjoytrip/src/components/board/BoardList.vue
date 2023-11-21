@@ -52,7 +52,8 @@
             >
           </p>
           <p class="mt-1 truncate text-xs leading-5 text-gray-500">
-            작성자 | <router-link :to="{ name: 'board-list' }">{{ article.userId }}</router-link>
+            작성자 |
+            <router-link :to="{ name: 'board-list' }">{{ article.userNickName }}</router-link>
           </p>
         </div>
       </div>
@@ -123,6 +124,6 @@ const onPageChange = (val) => {
 };
 
 const moveWrite = () => {
-  router.push({ name: "board-write" });
+  router.push({ name: "board-write", params: { type: "regist", articleno: 0 } });
 };
 </script>
