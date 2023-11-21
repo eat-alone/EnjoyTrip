@@ -1,5 +1,5 @@
 <script setup>
-import HeadingNavBar from "./components/HeadingNavBar.vue";
+import HeadingNavBar from "./components/layout/HeadingNavBar.vue";
 </script>
 
 <template>
