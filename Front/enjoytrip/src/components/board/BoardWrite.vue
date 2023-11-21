@@ -1,27 +1,33 @@
 <script setup>
+import axios from "axios";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { registArticle, getModifyArticle, modifyArticle } from "@/api/board";
+const { VITE_VUE_API_URL } = import.meta.env;
 
 const router = useRouter();
 const route = useRoute();
 
-const props = defineProps({ type: String });
-
+const { type, articleno } = route.params;
+console.log(type, articleno);
 const isUseId = ref(false);
+
+const formData = new FormData();
+
+const selectFiles = ref([]);
 
 const article = ref({
   articleNo: 0,
   subject: "",
   content: "",
-  userId: "",
-  userName: "",
+  userId: 1,
+  userNickName: "",
   hit: 0,
   registerTime: "",
+  boardType: 1,
 });
 
-if (props.type === "modify") {
-  let { articleno } = route.params;
+if (type === "modify") {
   getModifyArticle(
     articleno,
     ({ data }) => {
@@ -37,6 +43,7 @@ if (props.type === "modify") {
 
 const subjectErrMsg = ref("");
 const contentErrMsg = ref("");
+
 watch(
   () => article.value.subject,
   (value) => {
@@ -47,6 +54,7 @@ watch(
   },
   { immediate: true }
 );
+
 watch(
   () => article.value.content,
   (value) => {
@@ -58,6 +66,22 @@ watch(
   { immediate: true }
 );
 
+function returnFileSize(number) {
+  if (number < 1024) {
+    return number + "bytes";
+  } else if (number > 1024 && number < 1048576) {
+    return (number / 1024).toFixed(1) + "KB";
+  } else if (number > 1048576) {
+    return (number / 1048576).toFixed(1) + "MB";
+  }
+}
+
+function selectFile(event) {
+  for (let i = 0; i < event.target.files.length; i++) {
+    selectFiles.value[i] = event.target.files[i];
+  }
+}
+
 function onSubmit() {
   // event.preventDefault();
 
@@ -66,22 +90,54 @@ function onSubmit() {
   } else if (contentErrMsg.value) {
     alert(contentErrMsg.value);
   } else {
-    props.type === "regist" ? writeArticle() : updateArticle();
+    type === "regist" ? writeArticle() : updateArticle();
   }
 }
 
 function writeArticle() {
   console.log("글등록하자!!", article.value);
-  registArticle(
-    article.value,
-    (response) => {
+  console.log("첨부파일", selectFiles.value);
+  formData.append(
+    "article",
+    new Blob([JSON.stringify(article.value)], { type: "application/json" })
+  );
+  for (let i = 0; i < selectFiles.value.length; i++) {
+    formData.append("file", selectFiles.value[i]);
+  }
+  // formData.append("files", selectFiles.value);
+  // for (let key of formData.keys()) {
+  //   console.log(key);
+  // }
+  // for (let value of formData.values()) {
+  //   console.log(value);
+  // }
+  // registArticle(
+  //   article.value,
+  //   (response) => {
+  //     let msg = "글등록 처리시 문제 발생했습니다.";
+  //     if (response.status == 201) msg = "글등록이 완료되었습니다.";
+  //     alert(msg);
+  //     moveList();
+  //   },
+  //   (error) => console.error(error)
+  // );
+  axios
+    .post(`${VITE_VUE_API_URL}/board`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => {
+      // 응답 처리
       let msg = "글등록 처리시 문제 발생했습니다.";
       if (response.status == 201) msg = "글등록이 완료되었습니다.";
       alert(msg);
       moveList();
-    },
-    (error) => console.error(error)
-  );
+    })
+    .catch((error) => {
+      // 예외 처리
+      (error) => console.error(error);
+    });
 }
 
 function updateArticle() {
@@ -101,7 +157,7 @@ function updateArticle() {
 }
 
 function moveList() {
-  router.push({ name: "article-list" });
+  router.push({ name: "board-list" });
 }
 </script>
 
@@ -124,6 +180,7 @@ function moveList() {
             <input
               type="text"
               v-model="article.subject"
+              :placeholder="article.subject"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
@@ -136,9 +193,27 @@ function moveList() {
           <div class="mt-2.5">
             <textarea
               v-model="article.content"
+              :placeholder="article.content"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             ></textarea>
           </div>
+        </div>
+        <div class="mb-3">
+          <label for="upfile" class="form-label">파일:</label>
+          <input
+            type="file"
+            class="form-control border"
+            id="upfile"
+            name="upfile"
+            multiple="multiple"
+            @change="selectFile"
+          />
+          <ul v-if="selectFiles != null">
+            <li v-for="file in selectFiles" :key="file.name">
+              <span>{{ file.name }}</span>
+              <span class="float-right">{{ returnFileSize(file.size) }}</span>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="flex w-full">
