@@ -26,11 +26,16 @@ async function userUpdate(userInfo, success, fail) {
   await local.post(`http://localhost:80/vue/member/updateMember`, JSON.stringify(userInfo)).then(success).catch(fail);
 }
 
+async function userIdCheck(userid, success, fail) {
+    local.defaults.headers["Authorization"] = sessionStorage.getItem("accessToken");
+    await local.get(`http://localhost:80/vue/member/idCheck/${userid}`).then(success).catch(fail);
+  }
 
 export {
     registUser,
     userConfirm,
     findById,
   userDelete,
-  userUpdate
+    userUpdate,
+    userIdCheck
 };

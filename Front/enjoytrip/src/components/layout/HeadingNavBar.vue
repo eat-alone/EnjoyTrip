@@ -98,8 +98,9 @@ const logout = () => {
       <div class="flex lg:flex-1">
         <router-link :to="{ name: 'home' }" class="-m-1.5 p-1.5">
           <span class="sr-only">Your Company</span>
-          <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+          <img class="h-8 w-auto" src="https://cdn-icons-png.flaticon.com/128/4652/4652340.png" alt="" />
         </router-link>
+        <h3 class="font-semibold text-xl ml-2 mt-1"> 여행의 시발점</h3>
       </div>
       <div class="flex lg:hidden">
         <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -151,15 +152,21 @@ const logout = () => {
         <router-link :to="{ name: 'board' }" href="#"
           class="text-sm font-semibold leading-6 text-gray-900">Features</router-link>
         <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
-        <a href="#" class="text-sm font-semibold mr-10 leading-6 text-gray-900">Company</a>
+        <a href="#" class="text-sm font-semibold mr-20 leading-6 text-gray-900">Company</a>
       </PopoverGroup>
 
       <div v-if="isLogin" class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <router-link :to="{ name: 'home' }" class="-m-1.5 p-1.5">
+          <span class="sr-only">Your Company</span>
+          <img class="h-8 w-auto mt-1" src="https://cdn-icons-png.flaticon.com/128/12328/12328821.png" alt="" />
+        </router-link>
+
         <router-link :to="{ name: 'user-mypage', params: { userid: userInfo.userId } }"
-          class="text-sm font-semibold leading-6 text-gray-900">마이페이지 <span aria-hidden="true">&rarr;</span></router-link>
-        <router-link to="/" @click.prevent="logout" class="text-sm font-semibold ml-3 leading-6 text-gray-900">로그아웃 <span
+          class="text-sm font-semibold leading-6 text-gray-900 ml-5 mt-2">마이페이지 <span
             aria-hidden="true">&rarr;</span></router-link>
-        <p class="text-sm font-semibold ml-5 leading-6 text-gray-900"> {{ userInfo.userId }}님 반갑습니다.</p>
+        <router-link to="/" @click.prevent="logout" class="text-sm font-semibold ml-3 leading-6 text-gray-900 mt-2">로그아웃
+          <span aria-hidden="true">&rarr;</span></router-link>
+        <p class="text-sm font-semibold ml-5 leading-6 text-gray-900 mt-2"> {{ userInfo.userId }}님 반갑습니다.</p>
       </div>
 
       <div v-else class="hidden lg:flex lg:flex-1 lg:justify-end">
