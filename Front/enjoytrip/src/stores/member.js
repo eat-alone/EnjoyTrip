@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
 import { jwtDecode } from "jwt-decode";
 
-import { userConfirm, findById, userDelete, userUpdate} from "@/api/user";
+import { userConfirm, findById, userDelete, userUpdate, userIdCheck} from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
 export const useMemberStore = defineStore("memberStore", () => {
@@ -13,7 +13,8 @@ export const useMemberStore = defineStore("memberStore", () => {
   const isLoginError = ref(false);
   const userInfo = ref(null);
   const isValidToken = ref(false);
-  const isValidId = ref(null);
+  // const isValidId = ref(null);
+  const idValidMent = ref(null);
 
   const userLogin = async (loginUser) => {
     await userConfirm(
@@ -156,13 +157,13 @@ export const useMemberStore = defineStore("memberStore", () => {
   };
 
   const idCheck = async (userid) => {
-    await logout(
+    await userIdCheck(
       userid,
       (response) => {
         if (response.status === httpStatusCode.OK) {
-          isValidId.value = response.data;
-          console.log(response.data)
+          idValidMent.value = true;
         } else {
+          idValidMent.value = false;
           console.error("유저 정보 없음!!!!");
         }
       },
@@ -177,7 +178,7 @@ export const useMemberStore = defineStore("memberStore", () => {
     isLoginError,
     userInfo,
     isValidToken,
-    isValidId,
+    idValidMent,
     userLogin,
     getUserInfo,
     tokenRegenerate,

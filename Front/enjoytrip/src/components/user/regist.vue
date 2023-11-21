@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { storeToRefs } from "pinia";
@@ -12,7 +12,7 @@ const route = useRoute();
 
 const memberStore = useMemberStore();
 
-const { isValidId } = storeToRefs(memberStore);
+const { idValidMent } = storeToRefs(memberStore);
 const { idCheck } = memberStore;
 
 const userInfo = ref({
@@ -25,6 +25,9 @@ const userInfo = ref({
     // joinDate: "",
 })
 
+onMounted(() => {
+    idValidMent.value = null;
+});
 
 function genderchange_man() {
     this.userInfo.userGender = "0"
@@ -46,7 +49,8 @@ function onSubmit() {
 
 
 function idcheck() {
-    idCheck(userInfo.userId);
+    console.log(userInfo.value.userId);
+    idCheck(userInfo.value.userId);
 }
 
 function registerUsers() {
@@ -80,24 +84,28 @@ function moveMain() {
     -->
     <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+            <img class="mx-auto h-10 w-auto" src="https://cdn-icons-png.flaticon.com/128/4652/4652340.png"
                 alt="Your Company" />
-            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">회원가입
             </h2>
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form class="space-y-6" action="#" method="POST">
                 <div>
-                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">아이디</label>
+                    <label for="text" class="block text-sm font-medium leading-6 text-gray-900">아이디</label>
                     <div class="mt-2">
-                        <input id="email" name="email" type="email" autocomplete="email" required=""
+                        <input id="email" name="email" type="text" autocomplete="email" required=""
                             v-model="userInfo.userId"
-                            class="w-50 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                            class="w-60 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         <button @click="idcheck"
-                            class="flex justify-right float-right rounded-md px-3 py-1.5 text-sm font-semibold leading-6  shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">중복확인</button>
-                    </div>
+                            class="ml-3 rounded-md px-3 py-1.5 text-sm font-semibold leading-6  shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">중복확인</button>
 
+                    </div>
+                    <div v-if="idValidMent != null">
+                        <span v-show="!idValidMent" class="ml-2">중복되는 아이디가 존재합니다.</span>
+                        <span v-show="idValidMent">사용 가능한 아이디 입니다.</span>
+                    </div>
                 </div>
 
                 <div>
@@ -173,7 +181,7 @@ function moveMain() {
 
                 <form @submit.prevent="onSubmit">
                     <button type="submit"
-                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Join</button>
+                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">회원가입</button>
                 </form>
             </form>
 
