@@ -42,13 +42,18 @@ const products = [
 </script>
 
 <template>
-    <div class="flex lg:aspect-none group-hover:opacity-75 lg:h-80 "
-        :style="{ 'background-size': 'cover ', 'background-image': 'url(https://e1.pxfuel.com/desktop-wallpaper/78/535/desktop-wallpaper-airplane-aircraft-air-travel-world-aeroplane.jpg)' }">
-        <div class="sm:mx-auto">
-            <h1 class="mt-20  text-3xl font-bold leading-9 tracking-tight text-gray-900">오늘은 어디로 여행을 가고 싶나요?
-            </h1>
-            <h2 class="mt-10 text-right text-3xl"><router-link to="">여행지 둘러보기</router-link></h2>
+    <div class="relative">
+        <img src="https://e0.pxfuel.com/wallpapers/561/630/desktop-wallpaper-minimalist-airplane-minimalist-airplane-background-on-bat-simple-airplane.jpg"
+            class="w-full h-[30rem] object-cover" />
+        <div
+            class="isolate absolute top-1/2 left-[40%] -translate-y-1/2 -translate-x-1/2 text-white text-4xl text-center leading-normal">
+            <p>오늘은 어디로 여행을 가고 싶나요?</p>
         </div>
+        <div
+            class="isolate absolute top-[55%] left-[60%] -translate-y-1/2 -translate-x-1/2 text-white text-4xl text-center leading-normal mt-5">
+            <h2 class=""><router-link to="" class="text-black text-3xl">여행지 둘러보기</router-link></h2>
+        </div>
+
 
     </div>
 

@@ -92,7 +92,11 @@ function followings(userId) {
                         src='https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
                         alt="" />
                     <div class="min-w-0 flex-auto">
-                        <p class="text-sm font-semibold leading-6 text-gray-900">{{ person.userId }}</p>
+                        <router-link :to="{ name: 'user-mypage', params: { userid: person.userId } }"
+                            class="text-sm font-semibold leading-6 text-gray-900">{{
+                                person.userId
+                            }}</router-link>
+                        <!-- { name: 'user-modify', params: { userid: userInfo.value.userId } -->
                         <p class="mt-1 truncate text-xs leading-5 text-gray-500">{{ person.userNickname }}</p>
                     </div>
                 </div>

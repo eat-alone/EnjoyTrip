@@ -9,6 +9,7 @@ const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 const { deleteFollow, getFollowList } = followStore;
 
+
 function clickUnFollow(id) {
     unfollow(id);
     console.log(id)

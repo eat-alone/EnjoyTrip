@@ -153,7 +153,7 @@ const logout = () => {
       </PopoverGroup>
 
       <div v-if="isLogin" class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <router-link :to="{ name: 'home' }" class="-m-1.5 p-1.5">
+        <router-link :to="{ name: 'letter-receive' }" class="-m-1.5 p-1.5">
           <span class="sr-only">Your Company</span>
           <img class="h-8 w-auto mt-1" src="https://cdn-icons-png.flaticon.com/128/12328/12328821.png" alt="" />
         </router-link>
