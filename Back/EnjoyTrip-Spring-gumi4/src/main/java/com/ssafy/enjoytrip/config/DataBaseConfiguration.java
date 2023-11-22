@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
-@MapperScan(basePackages = { "com.ssafy.enjoytrip.*.model.mapper" })
+@MapperScan(basePackages = { "com.ssafy.enjoytrip.**.mapper" })
 public class DataBaseConfiguration {
 	
 	final ApplicationContext applicationContext;
