@@ -4,13 +4,32 @@ import { storeToRefs } from "pinia";
 import { useFollowStore } from "@/stores/follow";
 const followStore = useFollowStore();
 const { follow } = storeToRefs(followStore);
+import { useMemberStore } from "@/stores/member";
+const memberStore = useMemberStore();
+const { userInfo } = storeToRefs(memberStore);
+const { deleteFollow, getFollowList } = followStore;
+
+function clickUnFollow(id) {
+    unfollow(id);
+    console.log(id)
+}
+
+const unfollow = async (id) => {
+    await deleteFollow(userInfo.value.Id, id);
+    getFollow();
+}
 
 
+const getFollow = async () => {
+    await getFollowList(userInfo.value.userId);
+}
 
 </script>
 
 <template>
     <h2 class="text-center mt-4">팔로우 목록</h2>
+    <h1 v-if="follow.length == 0" class="text-center mt-5">
+        텅</h1>
     <ul role="list" class="divide-y w-2/5 mx-auto">
         <li v-for="person in follow" :key="person.Id" class="flex justify-between gap-x-6 py-5">
             <div class="flex min-w-0 gap-x-4">
@@ -35,7 +54,7 @@ const { follow } = storeToRefs(followStore);
 
                     <button type="button"
                         class="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                        @click="open = false" ref="cancelButtonRef">팔로우 취소</button>
+                        @click="clickUnFollow(person.Id)" ref="cancelButtonRef">팔로우 취소</button>
                 </div>
             </div>
         </li>

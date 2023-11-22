@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { defineStore } from "pinia";
 import { jwtDecode } from "jwt-decode";
 
-import { userConfirm, findById, userDelete, userUpdate, userIdCheck} from "@/api/user";
+import { userConfirm, findById, userDelete, userUpdate, userIdCheck, UserList} from "@/api/user";
 import { httpStatusCode } from "@/util/http-status";
 
 export const useMemberStore = defineStore("memberStore", () => {
@@ -15,6 +15,7 @@ export const useMemberStore = defineStore("memberStore", () => {
   const isValidToken = ref(false);
   // const isValidId = ref(null);
   const idValidMent = ref(null);
+  const userList = ref(null);
 
   const userLogin = async (loginUser) => {
     await userConfirm(
@@ -173,19 +174,43 @@ export const useMemberStore = defineStore("memberStore", () => {
     );
   };
 
+  const searchUser = (userId) => {
+    UserList(
+        userId,
+        (response) => {
+        if (response.status === httpStatusCode.OK) {
+          userList.value = response.data;
+        } else {
+          console.log("유저 정보 없음!!!!");
+        }
+      },
+      async (error) => {
+        console.error(
+          "getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ",
+          error.response.status
+        );
+        isValidToken.value = false;
+
+        await tokenRegenerate();
+      }
+    );
+  };
+  
   return {
     isLogin,
     isLoginError,
     userInfo,
     isValidToken,
     idValidMent,
+    userList,
     userLogin,
     getUserInfo,
     tokenRegenerate,
     userLogout,
     deleteUser,
     updateUser,
-    idCheck
+    idCheck,
+    searchUser
   };
 }, {
   persist:true

@@ -112,7 +112,7 @@ const logout = () => {
       <PopoverGroup class="hidden lg:flex lg:gap-x-12">
         <Popover class="relative">
           <PopoverButton class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-            Product
+            임시 NAV
             <ChevronDownIcon class="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
           </PopoverButton>
 
@@ -150,9 +150,10 @@ const logout = () => {
         </Popover>
 
         <router-link :to="{ name: 'board' }" href="#"
-          class="text-sm font-semibold leading-6 text-gray-900">Features</router-link>
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
-        <a href="#" class="text-sm font-semibold mr-20 leading-6 text-gray-900">Company</a>
+          class="text-sm font-semibold leading-6 text-gray-900">게시판</router-link>
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">여행지 찾기</a>
+        <router-link :to="{ name: 'user-search' }" class="text-sm font-semibold mr-20 leading-6 text-gray-900">유저 검색
+        </router-link>
       </PopoverGroup>
 
       <div v-if="isLogin" class="hidden lg:flex lg:flex-1 lg:justify-end">

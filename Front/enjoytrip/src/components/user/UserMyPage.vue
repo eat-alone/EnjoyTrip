@@ -26,7 +26,7 @@ const pageUser = ref({
 
 
 onMounted(() => {
-
+    console.log("팔로우 리스트 가져오는중 !!")
     getFollow();
     getFollower();
 });

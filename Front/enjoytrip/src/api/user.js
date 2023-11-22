@@ -29,7 +29,13 @@ async function userUpdate(userInfo, success, fail) {
 async function userIdCheck(userid, success, fail) {
     local.defaults.headers["Authorization"] = sessionStorage.getItem("accessToken");
     await local.get(`http://localhost:80/vue/member/idCheck/${userid}`).then(success).catch(fail);
-  }
+}
+  
+async function UserList(userid, success, fail) {
+  local.defaults.headers["Authorization"] = sessionStorage.getItem("accessToken");
+  await local.get(`http://localhost:80/vue/member/searchUser/${userid}`).then(success).catch(fail);
+}
+
 
 export {
     registUser,
@@ -37,5 +43,6 @@ export {
     findById,
   userDelete,
     userUpdate,
-    userIdCheck
+  userIdCheck,
+  UserList
 };
