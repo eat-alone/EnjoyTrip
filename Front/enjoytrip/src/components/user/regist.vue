@@ -15,12 +15,15 @@ const memberStore = useMemberStore();
 const { idValidMent } = storeToRefs(memberStore);
 const { idCheck } = memberStore;
 
+
+const Gender = ref("남자");
+
 const userInfo = ref({
     userId: "",
     userName: "",
     userPwd: "",
     userNickname: "",
-    userGender: "",
+    userGender: "0",
     userBirthday: "",
     // joinDate: "",
 })
@@ -31,12 +34,14 @@ onMounted(() => {
 
 function genderchange_man() {
     this.userInfo.userGender = "0"
+    this.Gender = "남자"
     console.log(userInfo.userGender)
     console.log(userInfo.value)
 }
 
 function genderchange_femail() {
     this.userInfo.userGender = "1"
+    this.Gender = "여자"
     console.log(userInfo.value)
 }
 
@@ -141,7 +146,7 @@ function moveMain() {
                         <div>
                             <MenuButton
                                 class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                                <input type="hidden"> {{ userInfo.userGender }}
+                                <input type="hidden"> {{ Gender }}
                                 <ChevronDownIcon class="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                             </MenuButton>
                         </div>
