@@ -7,6 +7,7 @@ import BoardWrite from "../components/board/BoardWrite.vue";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import MapView from "../views/MapView.vue";
+import TestView from "../views/TestView.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const memberStore = useMemberStore();
@@ -33,6 +34,11 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+    },
+    {
+      path: "/test",
+      name: "test",
+      component: TestView,
     },
     {
       path: "/user",
