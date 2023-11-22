@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip.map.model.mapper.MapMapper">
+
+	<resultMap type="sidoGugunCodeDto" id="sidogugun">
+		<result column="sido_code" property="sidoCode"/>
+		<result column="sido_name" property="sidoName"/>
+		<result column="gugun_code" property="gugunCode"/>
+		<result column="gugun_name" property="gugunName"/>
+		<result column="content_type_id" property="contentTypeId"/>
+		<result column="content_name" property="contentName"/>
+	</resultMap>
+	
+	<resultMap type="AttractionInfo" id="attinfo">
+		<result column="content_id" property="contentId"/>
+		<result column="content_type_id" property="contentTypeId"/>
+		<result column="title" property="title"/>
+		<result column="addr1" property="addr1"/>
+		<result column="addr2" property="addr2"/>
+		<result column="zipcode" property="zipcode"/>
+		<result column="tel" property="tel"/>
+		<result column="first_image" property="firstImage"/>
+		<result column="first_image2" property="firstImage2"/>
+		<result column="readcount" property="readCount"/>
+		<result column="sido_code" property="sidoCode"/>
+		<result column="gugun_code" property="gugunCode"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+		<result column="mlevel" property="mlevel"/>
+	</resultMap>
+	
+	<sql id="search">
+		<if test="sido != 0">
+			and sido_code = #{sido}	
+		</if>
+		<if test="gugun != 0">
+			and gugun_code = #{gugun}	
+		</if>
+		<if test="contenttype != 0">
+			and content_type_id = #{contenttype}	
+		</if>
+		
+	</sql>
+
+	<select id="getAttInfoList" parameterType="map" resultMap="attinfo">
+		select *
+		from attraction_infos
+		where title like concat('%', #{word}, '%')
+		<include refid="search"></include>
+		order by title
+		limit #{start}, #{listsize}
+	</select>
+	
+	<select id="getTotalAttCount" parameterType="map" resultType="int">
+		select count(content_id)
+		from attraction_infos
+		<where>
+			<include refid="search"></include>
+		</where>
+	</select>
+
+	<select id="getSido" resultMap="sidogugun">
+		select sido_code, sido_name
+		from sidos
+		order by sido_code
+	</select>
+	
+	<select id="getGugunInSido" parameterType="string" resultMap="sidogugun">
+		select gugun_code, gugun_name
+		from guguns
+		where sido_code = #{sido}
+		order by gugun_code
+	</select>
+	
+	<select id="getContentType" resultMap="sidogugun">
+		select content_type_id, content_name
+		from content_type
+		order by content_type_id
+	</select>
+	
+</mapper>
