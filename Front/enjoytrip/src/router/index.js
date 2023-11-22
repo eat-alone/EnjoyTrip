@@ -71,6 +71,12 @@ const router = createRouter({
           beforeEnter: onlyAuthUser,
           component: () => import("@/components/user/Follower.vue"),
         },
+        {
+          path: "search",
+          name: "user-search",
+          beforeEnter: onlyAuthUser,
+          component: () => import("@/components/user/UserSearch.vue"),
+        },
       ],
     },
     {
