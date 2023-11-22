@@ -215,5 +215,4 @@ export const useMemberStore = defineStore("memberStore", () => {
 }, {
   persist:true
 }
-
 );

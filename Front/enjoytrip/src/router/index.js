@@ -86,6 +86,24 @@ const router = createRouter({
       ],
     },
     {
+      path: "/letter",
+      name: "letter",
+      children: [
+        {
+          path: "receive",
+          name: "letter-receive",
+          beforeEnter: onlyAuthUser,
+      component: () => import("@/components/letter/letters.vue"),
+        },
+        {
+          path: "detail/:userid/:username",
+          name: "letter-detail",
+          beforeEnter: onlyAuthUser,
+      component: () => import("@/components/letter/letterDetail.vue"),
+        },
+      ],
+    },
+    {
       path: "/board",
       name: "board",
       component: BoardView,
