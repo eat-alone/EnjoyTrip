@@ -1,42 +1,21 @@
 <script setup>
 import { ref, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { useTripStore } from "@/stores/trip";
 
-const props = defineProps({
-  attraction: {
-    addr1: String,
-    addr2: String,
-    contentId: String,
-    contentTypeId: String,
-    firstImage: String,
-    firstImage2: String,
-    gugunCode: String,
-    latitude: String,
-    longitude: String,
-    mlevel: String,
-    readCount: String,
-    sidoCode: String,
-    tel: String,
-    title: String,
-    zipcode: String,
-  },
-});
+const tripStore = useTripStore();
+const { planList, addPlan, delPlan } = tripStore;
 
-const attList = ref([]);
-
-watch(
-  () => props.attraction,
-  () => {
-    console.log(props.attraction);
-  },
-  { deep: true }
-);
+const deletePlan = (id) => {
+  delPlan(id);
+};
 </script>
 
 <template>
   <div class="col-span-1">
-    <template v-for="attraction in attList" :key="attraction.contentId">
+    <template v-for="attraction in planList" :key="attraction.contentId">
       <b-card class="mt-3" :header="attraction.title ? attraction.title : attraction.addr1">
-        <button>일정추가</button>
+        <button @click="deletePlan(attraction.contentId)">일정삭제</button>
         <pre class="m-0">{{ attraction.firstImage }}</pre>
       </b-card>
     </template>

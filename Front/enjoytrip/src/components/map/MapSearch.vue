@@ -3,6 +3,11 @@ import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { listSido, listGugun, listAttraction, listType } from "@/api/map.js";
 import PageNavigation from "../common/PageNavigation.vue";
+import { storeToRefs } from "pinia";
+import { useTripStore } from "@/stores/trip";
+
+const tripStore = useTripStore();
+const { planList, addPlan, delPlan } = tripStore;
 
 const sidoList = ref([]);
 const gugunList = ref([{ text: "구/군 선택", value: "" }]);
@@ -34,6 +39,11 @@ watch(
   },
   { deep: true }
 );
+
+const appendPlan = (attraction) => {
+  addPlan(attraction);
+  console.log(planList);
+};
 
 const getAttractionList = () => {
   listAttraction(
@@ -147,7 +157,7 @@ const onPageChange = (val) => {
     </b-form>
     <template v-for="attraction in attractionList" :key="attraction.contentId">
       <b-card class="mt-3" :header="attraction.title ? attraction.title : attraction.addr1">
-        <button>일정추가</button>
+        <button @click="appendPlan(attraction)">일정추가</button>
         <pre class="m-0">{{ attraction.firstImage }}</pre>
       </b-card>
     </template>
