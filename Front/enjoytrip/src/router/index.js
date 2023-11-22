@@ -6,6 +6,7 @@ import BoardDetail from "../components/board/BoardDetail.vue";
 import BoardWrite from "../components/board/BoardWrite.vue";
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
+import MapView from "../views/MapView.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const memberStore = useMemberStore();
@@ -24,7 +25,6 @@ const onlyAuthUser = async (to, from, next) => {
     next();
   }
 };
-
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -101,6 +101,11 @@ const router = createRouter({
           component: BoardWrite,
         },
       ],
+    },
+    {
+      path: "/map",
+      name: "map",
+      component: MapView,
     },
   ],
 });
