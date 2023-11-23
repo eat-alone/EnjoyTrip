@@ -1,9 +1,15 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
+import { useTripStore } from "../../stores/trip";
+
+const tripStore = useTripStore();
+const { planList, tripSearchList } = tripStore;
 
 var map;
 const positions = ref([]);
 const markers = ref([]);
+const planPositions = ref([]);
+const planMarkers = ref([]);
 
 // const props = defineProps({ stations: Array, selectStation: Object });
 
@@ -20,7 +26,79 @@ const markers = ref([]);
 //   { deep: true }
 // );
 
+watch(
+  () => planList,
+  () => {
+    console.log("맵에서 변화감지", planList);
+    planPositions.value = [];
+    planList.forEach((station) => {
+      let obj = {};
+      obj.latlng = new kakao.maps.LatLng(station.latitude, station.longitude);
+      obj.title = station.statNm;
+
+      planPositions.value.push(obj);
+    });
+    loadPlanMarkers();
+  },
+  { deep: true }
+);
+
+const loadPlanMarkers = () => {
+  const imgSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
+  const imgSize = new kakao.maps.Size(30, 40);
+  const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize);
+
+  // 마커를 생성합니다
+  planMarkers.value = [];
+  planPositions.value.forEach((position) => {
+    const marker = new kakao.maps.Marker({
+      map: map, // 마커를 표시할 지도
+      position: position.latlng, // 마커를 표시할 위치
+      title: position.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됨.
+      clickable: true, // // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+      image: markerImage, // 마커의 이미지
+    });
+    planMarkers.value.push(marker);
+  });
+
+  // 4. 지도를 이동시켜주기
+  // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
+  const bounds = planPositions.value.reduce(
+    (bounds, position) => bounds.extend(position.latlng),
+    new kakao.maps.LatLngBounds()
+  );
+
+  map.setBounds(bounds);
+};
+
+watch(
+  () => tripSearchList,
+  () => {
+    console.log("맵에서 변화감지", tripSearchList);
+    var moveLatLon = new kakao.maps.LatLng(tripSearchList[0].latitude, tripSearchList[0].longitude);
+    map.panTo(moveLatLon);
+    positions.value = [];
+    tripSearchList.forEach((station) => {
+      let obj = {};
+      obj.latlng = new kakao.maps.LatLng(station.latitude, station.longitude);
+      obj.title = station.statNm;
+
+      positions.value.push(obj);
+    });
+    loadMarkers();
+  },
+  { deep: true }
+);
+
+const initLat = ref(33.450701);
+const initLong = ref(126.570667);
+
 onMounted(() => {
+  navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position.coords.latitude, position.coords.longitude);
+    initLat.value = position.coords.latitude;
+    initLong.value = position.coords.longitude;
+  });
   if (window.kakao && window.kakao.maps) {
     initMap();
   } else {
@@ -53,7 +131,7 @@ onMounted(() => {
 const initMap = () => {
   const container = document.getElementById("map");
   const options = {
-    center: new kakao.maps.LatLng(33.450701, 126.570667),
+    center: new kakao.maps.LatLng(initLat.value, initLong.value),
     level: 3,
   };
   map = new kakao.maps.Map(container, options);

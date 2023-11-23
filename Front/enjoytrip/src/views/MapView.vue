@@ -4,7 +4,7 @@ import SideNavBar from "../components/map/SideNavBar.vue";
 </script>
 
 <template>
-  <div style="display: flex; flex-direction: row; height: 95vh">
+  <div style="display: flex; flex-direction: row; height: 93vh">
     <SideNavBar />
     <VKaKaoMap />
   </div>

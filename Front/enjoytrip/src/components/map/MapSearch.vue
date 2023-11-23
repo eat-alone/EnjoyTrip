@@ -7,7 +7,7 @@ import { useMemberStore } from "@/stores/member";
 
 // const emit = defineEmits({planer : object});
 const tripStore = useTripStore();
-const { planList, addPlan, delPlan, savePlan } = tripStore;
+const { planList, addPlan, delPlan, savePlan, tripSearchList, setTripSearchList } = tripStore;
 const { userInfo } = useMemberStore();
 const sidoList = ref([]);
 const gugunList = ref([{ text: "구/군 선택", value: "" }]);
@@ -28,7 +28,6 @@ const param = ref({
 onMounted(() => {
   getSidoList();
   getTypeList();
-  getAttractionList();
 });
 
 watch(
@@ -53,6 +52,7 @@ const getAttractionList = () => {
       console.log(attractionList.value);
       currentPage.value = data.currentPage;
       totalPage.value = data.totalPageCount;
+      setTripSearchList(attractionList.value);
     },
     (error) => {
       console.error(error);
@@ -64,6 +64,7 @@ const getTypeList = () => {
   listType(
     ({ data }) => {
       let options = [];
+      console.log("타입", data);
       options.push({ text: "카테고리 선택", value: "" });
       data.forEach((type) => {
         options.push({ text: type.contentName, value: type.contentTypeId });
