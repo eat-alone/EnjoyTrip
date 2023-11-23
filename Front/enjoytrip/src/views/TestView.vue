@@ -62,22 +62,32 @@ const selectAttinfo = (att) => {
     </template>
     <template v-if="startDate">
       <MapSearch />
-      <div
-        style="
-          position: fixed;
-          left: 400px;
-          top: 88px;
-          z-index: 2;
-          width: 400px;
-          height: 95vh;
-          background-color: white;
-          display: flex;
-          flex-direction: column;
-        "
-      >
-        <div>
-          <template v-for="i in idate" :key="i">
-            <button @click="pageChange(i)">{{ i }}일</button>
+    </template>
+    <div style="
+        position: fixed;
+        left: 400px;
+        top: 88px;
+        z-index: 2;
+        width: 400px;
+        height: 95vh;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+      ">
+      <div class="">
+        <template v-for="i in idate" :key="i">
+          <button @click="pageChange(i)"
+            class="border border-1 p-1 rounded-3 shadow-sm ring-1 ring-inset ring-gray m-2 hover:bg-gray-500">{{
+              i
+            }}일 계획</button>
+        </template>
+      </div>
+      <div style="overflow: auto">
+        <template v-for="i in idate" :key="i">
+          <template v-if="page == i">
+            <div>
+              <TripPlan :date="startDate" :page="i" />
+            </div>
           </template>
         </div>
         <div style="overflow: auto">

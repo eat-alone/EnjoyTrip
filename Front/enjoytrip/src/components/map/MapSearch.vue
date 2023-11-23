@@ -143,39 +143,37 @@ const savePlan1 = () => {
 </script>
 
 <template>
-  <div class="">
+  <div class="text-center">
     <b-form @submit="onSubmit" @reset="onReset">
-      <b-form-group id="input-group-1" label="시/도 선택" label-for="input-1">
+      <b-form-group id="input-group-1" label="시/도 선택" label-for="input-1" class="mb-4">
         <b-form-select id="input-1" v-model="param.sido" :options="sidoList"></b-form-select>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="구/군 선택" label-for="input-2">
+      <b-form-group id="input-group-2" label="구/군 선택" label-for="input-2" class="mb-4">
         <b-form-select id="input-2" v-model="param.gugun" :options="gugunList"></b-form-select>
       </b-form-group>
 
-      <b-form-group id="input-group-3" label="카테고리 선택" label-for="input-3">
+      <b-form-group id="input-group-3" label="카테고리 선택" label-for="input-3" class="mb-4">
         <b-form-select id="input-3" v-model="param.category" :options="typeList"></b-form-select>
       </b-form-group>
 
-      <b-form-group id="input-group-4" label="키워드 검색" label-for="input-4">
+      <b-form-group id="input-group-4" label="키워드 검색" label-for="input-4" class="mb-4">
         <b-form-input id="input-4" v-model="param.word" placeholder="키워드 입력"></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">검색</b-button>
+      <b-button type="submit" variant="primary" class="mr-2">검색</b-button>
       <b-button type="reset" variant="danger">초기화</b-button>
-      <b-button variant="primary" @click="savePlan1">일정 저장</b-button>
+      <b-button variant="primary" @click="savePlan1" class="float-right mr-5">일정 저장</b-button>
     </b-form>
     <template v-for="attraction in attractionList" :key="attraction.contentId">
-      <b-card class="mt-3" :header="attraction.title ? attraction.title : attraction.addr1">
-        <button @click="appendPlan(attraction)">일정추가</button>
-        <pre class="m-0">{{ attraction.firstImage }}</pre>
+      <b-card class="mt-3" :header="attraction.title ? attraction.title : attraction.addr1"
+        @click="appendPlan(attraction)">
+        <!-- <button @click="appendPlan(attraction)" class="border border-1 rounded-4 bg-gray-300 p-1">일정추가</button> -->
+        <img :src="attraction.firstImage" :alt="attraction.firstImage">
+        <!-- <pre class="m-0">{{ attraction.firstImage }}</pre> -->
       </b-card>
     </template>
-    <PageNavigation
-      :current-page="currentPage"
-      :total-page="totalPage"
-      @pageChange="onPageChange"
-    ></PageNavigation>
+    <PageNavigation :current-page="currentPage" :total-page="totalPage" @pageChange="onPageChange"></PageNavigation>
   </div>
 </template>
 
