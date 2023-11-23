@@ -13,10 +13,12 @@ import lombok.ToString;
 @NoArgsConstructor
 public class PlanListDto {
 	private String planId;
+	private String planName;
 	private String isPublic;
-	private String createTime;
+	private String createDate;
 	private String startDate;
 	private String endDate;
+	private String teamCnt;
 	private String creatorId;
 	private List<PlanDetailDto> planDetailDtoList;
 }

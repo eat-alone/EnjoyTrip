@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ssafy.enjoytrip.map.model.AttractionInfo;
+import com.ssafy.enjoytrip.map.model.PlanListDto;
 import com.ssafy.enjoytrip.map.model.SidoGugunCodeDto;
 
 public interface MapMapper {
@@ -21,4 +22,6 @@ public interface MapMapper {
 
 	List<AttractionInfo> hotAttractionList() throws Exception;
 
+	List<PlanListDto> getMyPlanList(String userId) throws Exception;
+	void inviteMember(Map<String, Object> map) throws Exception;
 }
