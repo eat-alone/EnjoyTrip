@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.enjoytrip.board.model.BoardListDto;
 import com.ssafy.enjoytrip.map.model.AttractionInfo;
 import com.ssafy.enjoytrip.map.model.AttractionInfoList;
+import com.ssafy.enjoytrip.map.model.PlanListDto;
 import com.ssafy.enjoytrip.map.model.SidoGugunCodeDto;
 import com.ssafy.enjoytrip.map.model.service.MapService;
 
@@ -76,6 +77,33 @@ public class MapController {
 			return ResponseEntity.ok().headers(header).body(attInfoList);
 		} catch (Exception e) {
 			return exceptionHandling(e);
+		}
+	}
+	
+	@ApiOperation(value = "플랜 정보", notes = "유저의 플랜정보를 반환한다.", response = List.class)
+	@GetMapping("/getmyplanlist/{userId}")
+	public ResponseEntity<?> getMyPlanList(
+			@PathVariable("userId") @ApiParam(value = "플랜 정보를 얻기 위한 아이디값", required = true) String userId) throws Exception {
+		try {
+			System.out.println(userId +"*************8");
+			List<PlanListDto> attInfoList = mapService.getMyPlanList(userId);
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			return ResponseEntity.ok().headers(header).body(attInfoList);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@PostMapping("/invitemember")
+	public ResponseEntity<?> inviteMember(
+			@RequestBody @ApiParam(value = "플랜 초대를 위한 유저아이디", required = true) Map<String, Object> map) throws Exception {
+		System.out.println(map);
+		try {
+			mapService.inviteMember(map);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<String>("이미 초대된 사람입니다. 혹은 에러입니다.", HttpStatus.OK);
 		}
 	}
 	 

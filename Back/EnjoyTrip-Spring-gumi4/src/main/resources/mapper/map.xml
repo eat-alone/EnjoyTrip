@@ -13,6 +13,17 @@
 		<result column="content_name" property="contentName"/>
 	</resultMap>
 	
+	<resultMap type="planListDto" id="plan">
+		<result column="plan_id" property="planId"/>
+		<result column="plan_name" property="planName"/>
+		<result column="is_public" property="isPublic"/>
+		<result column="create_date" property="createDate"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
+		<result column="creator_id" property="creatorId"/>
+		<result column="num" property="teamCnt"/>
+	</resultMap>
+	
 	<resultMap type="AttractionInfo" id="attinfo">
 		<result column="content_id" property="contentId"/>
 		<result column="content_type_id" property="contentTypeId"/>
@@ -78,6 +89,16 @@
 		select content_type_id, content_name
 		from content_type
 		order by content_type_id
+	</select>
+	
+	<select id="getMyPlanList" parameterType="string" resultMap="plan">
+		SELECT t.plan_id, t.plan_name, t.create_date, t.start_date, t.end_date, (SELECT user_nickname FROM members WHERE id = t.creator_id) creator_id, (SELECT COUNT(*) FROM user_plans u WHERE u.plan_id = t.plan_id) num
+		FROM tripplans t
+		WHERE t.plan_id IN (SELECT plan_id FROM enjoytrip.user_plans WHERE user_Id = (SELECT id FROM members WHERE user_id = #{userId}));
+	</select>
+	
+	<select id="inviteMember" parameterType="map">
+		INSERT INTO user_plans VALUES(#{userId}, #{nowId})
 	</select>
 	
 

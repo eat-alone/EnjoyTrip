@@ -4,9 +4,10 @@ import { storeToRefs } from "pinia";
 import { useRouter, useRoute } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import { useFollowStore } from "@/stores/follow";
+import { getMyPlanList, goInviteMember } from "@/api/plan";
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
-
+import { httpStatusCode } from "@/util/http-status";
 
 const route = useRoute();
 const router = useRouter();
@@ -18,12 +19,18 @@ const { deleteUser } = memberStore;
 const { getFollowList, getFollowerList } = followStore;
 const isMypage = ref(null);
 const open = ref(false)
+const openInvite = ref(false);
 
 const pageUser = ref({
     userId: "",
     userPwd: "",
 });
 
+const planList = ref(null);
+const planInfo = ref({
+    nowId: "",
+    userId: "",
+})
 
 onMounted(() => {
     console.log("팔로우 리스트 가져오는중 !!")
@@ -40,6 +47,7 @@ onMounted(() => {
     console.log(isMypage.value)
     getFollow();
     getFollower();
+    getPlanList(route.params.userid);
 });
 
 const getFollow = async () => {
@@ -50,6 +58,48 @@ const getFollow = async () => {
 const getFollower = async () => {
     await getFollowerList(route.params.userid);
 }
+
+function goInviteThisPlan(userid) {
+    console.log(userid + "***********");
+    planInfo.value.userId = userid;
+    goInviteMembers();
+}
+
+const goInviteMembers = async () => {
+    await goInviteMember(
+        planInfo.value,
+        (response) => {
+            if (response.status === httpStatusCode.OK) {
+                alert(response.data)
+            }
+            else {
+                console.log("성공적으로 초대완료");
+                console.log(response.data);
+                getPlanList(route.params.userid)
+                openInvite.value = false;
+            }
+        }
+    );
+};
+
+function inviteMember(planid) {
+    planInfo.value.nowId = planid;
+    console.log(planInfo.value.nowId);
+    openInvite.value = true;
+    console.log(openInvite.value)
+}
+
+const getPlanList = async (userid) => {
+    await getMyPlanList(
+        userid,
+        (response) => {
+            console.log("성공적으로 여행플랜 불러옴.");
+            planList.value = response.data;
+            console.log(response.data)
+        }
+    );
+};
+
 
 const deleteuser = async () => {
     let token = sessionStorage.getItem("accessToken");
@@ -121,26 +171,30 @@ function moveUpdate() {
         <h3 class="mt-10 mr-40 text-center font-bold leading-9 tracking-tight text-gray-900">나의 여행 플랜</h3>
         <hr class="mt-3 m-auto w-50 two">
 
-        <div class="border border-1 rounded-3 border-primary m-auto mt-3">
+        <!-- 여기서부터 for문 -->
+        <div v-for="plan in planList" :key="planList.plan_id" class="border border-1 rounded-3 border-primary m-auto mt-3">
             <span class="inline-flex">
                 <img class="w-auto h-[15rem] p-3"
                     src="https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/03/a0003120/img/basic/a0003120_main.jpg?20210203113541&q=80"
                     alt="" />
                 <div class="mr-5">
-                    <h3 class="text-2xl text-center mr-5 font-bold ml-5 mt-3 leading-9 tracking-tight text-gray-900">도쿄 시부야
-                        여행
+                    <h3 class="text-2xl text-center mr-5 font-bold ml-5 mt-3 leading-9 tracking-tight text-gray-900">
+                        {{ plan.planName }}
                     </h3>
 
-                    <h3 class="text-sm ml-5">2023-01-06 ~ 2023-01-09</h3>
+                    <h3 class="text-sm ml-5">{{ plan.startDate }} ~ {{ plan.endDate }}</h3>
                     <div class="inline-flex ml-5 mt-3">
                         <img class="h-8 w-auto inling-flex" src="https://cdn-icons-png.flaticon.com/128/2815/2815428.png"
                             alt="" />
-                        <h3 class="text-sm ml-1 mt-2 font-semibold">인원 3명</h3>
+                        <h3 class="text-sm ml-1 mt-2 font-semibold">{{ plan.teamCnt }} 명</h3>
+
                     </div>
-                    <button type="button"
+                    <h3 class="text-sm ml-1 mt-2 font-semibold">생성자 : {{ plan.creatorId }}</h3>
+                    <button
                         class="inline-flex rounded-md float-right bg-success px-3 py-2 text-sm font-semibold text-gray-900 text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-3"
-                        @click="open = false" ref="cancelButtonRef">초대</button>
+                        @click="inviteMember(plan.planId)" ref="cancelButtonRef">초대</button>
                 </div>
+                <!-- inviteMember(plan.planId) -->
             </span>
         </div>
 
@@ -152,6 +206,78 @@ function moveUpdate() {
                     class="flex w-full justify-center rounded-md px-3 py-1.5 text-sm bg-danger text-light font-semibold leading-6  shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">회원탈퇴</button>
             </div>
         </div>
+
+
+        <div v-if="openInvite">
+            <TransitionRoot as="template" :show="openInvite">
+                <Dialog as="div" class="relative z-10" @close="openInvite = false">
+                    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0"
+                        enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </TransitionChild>
+
+                    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                            <TransitionChild as="template" enter="ease-out duration-300"
+                                enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200"
+                                leave-from="opacity-100 translate-y-0 sm:scale-100"
+                                leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                                <DialogPanel
+                                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                        <h3 class="text-center mt-4">팔로우 목록</h3>
+                                        <h1 v-if="follow.length == 0" class="text-center mt-5">
+                                            텅</h1>
+                                        <ul role="list" class="">
+                                            <li v-for="person in follow" :key="person.Id"
+                                                class="flex justify-between gap-x-6 py-5">
+                                                <div class="flex min-w-0 gap-x-4">
+                                                    <img class="h-12 w-12 flex-none rounded-full bg-gray-50"
+                                                        src='https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                                                        alt="" />
+                                                    <div class="min-w-0 flex-auto">
+                                                        <p class="text-sm font-semibold leading-6 text-gray-900">{{
+                                                            person.userId }}</p>
+                                                        <p class="mt-1 truncate text-xs leading-5 text-gray-500">{{
+                                                            person.userNickname }}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                                                    <p class="text-sm leading-6 text-gray-900">{{ person.role }}</p>
+                                                    <p v-if="person.lastSeen" class="mt-1 text-xs leading-5 text-gray-500">
+                                                        Last seen <time :datetime="person.lastSeenDateTime">{{
+                                                            person.lastSeen }}</time>
+                                                    </p>
+                                                    <div v-else class="mt-1 flex items-center gap-x-1.5">
+                                                        <div class="flex-none rounded-full bg-emerald-500/20 p-1">
+                                                            <div class="h-1.5 w-1.5 rounded-full bg-emerald-500"></div>
+                                                        </div>
+                                                        <p class="text-xs mr-5 leading-5 text-gray-500">Online</p>
+
+                                                        <button type="button"
+                                                            class="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                                            @click="goInviteThisPlan(person.Id)"
+                                                            ref="cancelButtonRef">초대하기</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <button type="button"
+                                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                            @click="openInvite = false" ref="cancelButtonRef">취소</button>
+                                    </div>
+                                </DialogPanel>
+                            </TransitionChild>
+                        </div>
+                    </div>
+                </Dialog>
+            </TransitionRoot>
+        </div>
+
+
 
 
         <div v-if="open">
@@ -202,6 +328,11 @@ function moveUpdate() {
                 </Dialog>
             </TransitionRoot>
         </div>
+
+
+
+
+
     </div>
 </template>
 <style scoped></style>

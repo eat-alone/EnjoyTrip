@@ -29,7 +29,7 @@ function deleteArticle(articleno, success, fail) {
 
 async function getHotArticleList(success, fail) { //처리해야함 ㅠㅠ
   local.defaults.headers["Authorization"] = sessionStorage.getItem("accessToken");
-  await local.get(`/board/getHotArticleList/`).then(success).catch(fail);
+  await local.get(`/board/getHotArticleList`).then(success).catch(fail);
 }
 
 export {
