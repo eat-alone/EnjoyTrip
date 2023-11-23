@@ -102,12 +102,13 @@ const deleteMarkers = () => {
 </script>
 
 <template>
-  <span class="col-span-11 w-100" id="map"></span>
+  <div style="flex: 1; display: flex">
+    <span class="" id="map"></span>
+  </div>
 </template>
 
 <style>
 #map {
-  margin-left: auto;
-  height: 91vh;
+  flex: 1;
 }
 </style>

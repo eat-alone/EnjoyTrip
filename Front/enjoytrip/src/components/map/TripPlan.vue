@@ -41,7 +41,7 @@ const setParam = (val1, val2, val3, val4) => {
 </script>
 
 <template>
-  <div class="col-span-1">
+  <div class="">
     <template v-for="attraction in attractionList" :key="attraction.contentId">
       <b-card class="mt-3" :header="attraction.title ? attraction.title : attraction.addr1">
         <button @click="deletePlan(attraction.contentId)">일정삭제</button>

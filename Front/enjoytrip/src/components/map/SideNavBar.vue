@@ -12,51 +12,26 @@ function viewClick() {
 </script>
 
 <template>
-  <span class="col-span-1">
-    <div class="d-flex flex-column p-1 text-white bg-white">
-      <hr />
-      <ul class="nav nav-pills flex-column mb-auto">
+  <div class="" style="width: 400px; height: 95vh; display: flex; flex-direction: column">
+    <div style="">
+      <ul class="nav justify-content-center">
         <li class="nav-item">
-          <a href="#" class="nav-link active" aria-current="page">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home" /></svg>
-            Home
-          </a>
+          <router-link :to="{ name: 'test' }" class="nav-link active" aria-current="page" href="#"
+            >새일정생성
+          </router-link>
         </li>
-        <li>
-          <button
-            @click="viewClick()"
-            class="nav-link text-black btn btn-primary"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasScrolling"
-            aria-controls="offcanvasScrolling"
-          >
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2" /></svg>
-            Dashboard
-          </button>
+        <li class="nav-item">
+          <a class="nav-link" href="#">내 일정 목록</a>
         </li>
-        <li>
-          <a href="#" class="nav-link text-black">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#table" /></svg>
-            Orders
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-black">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid" /></svg>
-            Products
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-black">
-            <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle" /></svg>
-            Customers
-          </a>
+        <li class="nav-item">
+          <a class="nav-link" href="#">일정 탐색</a>
         </li>
       </ul>
-      <hr />
     </div>
-  </span>
+    <div style="overflow: auto">
+      <router-view></router-view>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

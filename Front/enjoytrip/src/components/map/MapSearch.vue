@@ -142,7 +142,7 @@ const savePlan1 = () => {
 </script>
 
 <template>
-  <div class="col-span-1">
+  <div class="">
     <b-form @submit="onSubmit" @reset="onReset">
       <b-form-group id="input-group-1" label="시/도 선택" label-for="input-1">
         <b-form-select id="input-1" v-model="param.sido" :options="sidoList"></b-form-select>
