@@ -39,33 +39,7 @@ const router = createRouter({
       name: "home",
       component: HomeView,
     },
-    {
-      path: "/test",
-      name: "test",
-      component: TestView,
-      children: [
-        {
-          path: "/selectdate",
-          name: "selectdate",
-          component: SelectDate,
-        },
-        {
-          path: "/mapsearch",
-          name: "mapsearch",
-          component: MapSearch,
-        },
-        {
-          path: "/myplan",
-          name: "myplan",
-          component: MyPlan,
-        },
-        {
-          path: "/tripplan",
-          name: "tripplan",
-          component: TripPlan,
-        },
-      ],
-    },
+
     {
       path: "/user",
       name: "user",
@@ -119,13 +93,13 @@ const router = createRouter({
           path: "receive",
           name: "letter-receive",
           beforeEnter: onlyAuthUser,
-      component: () => import("@/components/letter/letters.vue"),
+          component: () => import("@/components/letter/letters.vue"),
         },
         {
           path: "detail/:userid/:username",
           name: "letter-detail",
           beforeEnter: onlyAuthUser,
-      component: () => import("@/components/letter/letterDetail.vue"),
+          component: () => import("@/components/letter/letterDetail.vue"),
         },
       ],
     },
@@ -153,7 +127,7 @@ const router = createRouter({
         {
           path: "/announceList",
           name: "board-announce",
-      component: () => import("@/components/board/announceList.vue"),
+          component: () => import("@/components/board/announceList.vue"),
         },
       ],
     },
@@ -161,6 +135,35 @@ const router = createRouter({
       path: "/map",
       name: "map",
       component: MapView,
+      children: [
+        {
+          path: "/test",
+          name: "test",
+          component: TestView,
+          children: [
+            {
+              path: "/selectdate",
+              name: "selectdate",
+              component: SelectDate,
+            },
+            {
+              path: "/mapsearch",
+              name: "mapsearch",
+              component: MapSearch,
+            },
+            {
+              path: "/myplan",
+              name: "myplan",
+              component: MyPlan,
+            },
+            {
+              path: "/tripplan",
+              name: "tripplan",
+              component: TripPlan,
+            },
+          ],
+        },
+      ],
     },
   ],
 });

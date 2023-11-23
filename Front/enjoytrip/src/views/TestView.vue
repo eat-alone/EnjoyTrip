@@ -56,29 +56,40 @@ const selectAttinfo = (att) => {
 </script>
 
 <template>
-  <div class="grid grid-cols-4 row2">
-    <button @click="moveNewPlan" class="col-span-1">새 일정 만들기</button>
-    <button class="col-span-1">내 일정 보기</button>
-    <button class="col-span-1">일정 탐색 하기</button>
-    <button class="col-span-1">날짜 정하기</button>
+  <div>
     <template v-if="!startDate">
       <selectDate @date-select="dateSelect" />
     </template>
     <template v-if="startDate">
       <MapSearch />
     </template>
-    <div>
-      <template v-for="i in idate" :key="i">
-        <button @click="pageChange(i)">{{ i }}일</button>
-      </template>
-      <template v-for="i in idate" :key="i">
-        <template v-if="page == i">
-          <div>
-            {{ i }}일 일정
-            <TripPlan :date="startDate" :page="i" />
-          </div>
+    <div
+      style="
+        position: fixed;
+        left: 400px;
+        top: 56px;
+        z-index: 2;
+        width: 400px;
+        height: 95vh;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <div>
+        <template v-for="i in idate" :key="i">
+          <button @click="pageChange(i)">{{ i }}일</button>
         </template>
-      </template>
+      </div>
+      <div style="overflow: auto">
+        <template v-for="i in idate" :key="i">
+          <template v-if="page == i">
+            <div>
+              <TripPlan :date="startDate" :page="i" />
+            </div>
+          </template>
+        </template>
+      </div>
     </div>
   </div>
 </template>
