@@ -12,7 +12,7 @@ function viewClick() {
 </script>
 
 <template>
-  <div class="" style="width: 400px; height: 95vh; display: flex; flex-direction: column">
+  <div class="" style="width: 400px; height: 93vh; display: flex; flex-direction: column">
     <div style="">
       <ul class="nav justify-content-center mx-auto pt-2">
         <li class="nav-item border border-1 rounded-5 bg-gray-200 m-1 sm:ring-1 sm:ring-gray-900/10">

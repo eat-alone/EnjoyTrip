@@ -103,8 +103,8 @@
 	
 
 	<insert id="saveTripPlan" parameterType="map">
-		insert into tripplans (create_date, start_date,end_date,creator_id)
-		values (#{createDate}, #{startDate}, #{endDate}, #{userId})
+		insert into tripplans (plan_name, create_date, start_date,end_date,creator_id)
+		values (#{name}, #{createDate}, #{startDate}, #{endDate}, #{userId})
 		<selectKey resultType="int" keyProperty="planId" order="AFTER">
 			select last_insert_id()
 		</selectKey>

@@ -10,6 +10,18 @@ export const useTripStore = defineStore("tripStore", () => {
   const planName = ref("");
   const startDate = ref("");
   const endDate = ref("");
+  const tripSearchList = ref([]);
+
+  const setTripSearchList = (list) => {
+    let length = tripSearchList.value.length;
+    for (let i = 0; i < length; i++) {
+      tripSearchList.value.pop();
+    }
+    for (let i = 0; i < list.length; i++) {
+      tripSearchList.value.push(list[i]);
+    }
+    console.log("검색한 결과", tripSearchList.value);
+  };
 
   const setDate = (start, end) => {
     startDate.value = start;
@@ -125,5 +137,7 @@ export const useTripStore = defineStore("tripStore", () => {
     savePlan,
     setDate,
     setAdditionalParam,
+    tripSearchList,
+    setTripSearchList,
   };
 });

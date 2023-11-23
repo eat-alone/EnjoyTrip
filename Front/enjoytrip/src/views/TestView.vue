@@ -89,9 +89,18 @@ const selectAttinfo = (att) => {
               <TripPlan :date="startDate" :page="i" />
             </div>
           </template>
-        </template>
+        </div>
+        <div style="overflow: auto">
+          <template v-for="i in idate" :key="i">
+            <template v-if="page == i">
+              <div>
+                <TripPlan :date="startDate" :page="i" />
+              </div>
+            </template>
+          </template>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
