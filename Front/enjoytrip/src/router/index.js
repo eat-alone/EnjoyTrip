@@ -8,6 +8,10 @@ import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member";
 import MapView from "../views/MapView.vue";
 import TestView from "../views/TestView.vue";
+import MapSearch from "../components/map/MapSearch.vue";
+import MyPlan from "../components/map/MyPlan.vue";
+import SelectDate from "../components/map/SelectDate.vue";
+import TripPlan from "../components/map/TripPlan.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const memberStore = useMemberStore();
@@ -39,6 +43,28 @@ const router = createRouter({
       path: "/test",
       name: "test",
       component: TestView,
+      children: [
+        {
+          path: "/selectdate",
+          name: "selectdate",
+          component: SelectDate,
+        },
+        {
+          path: "/mapsearch",
+          name: "mapsearch",
+          component: MapSearch,
+        },
+        {
+          path: "/myplan",
+          name: "myplan",
+          component: MyPlan,
+        },
+        {
+          path: "/tripplan",
+          name: "tripplan",
+          component: TripPlan,
+        },
+      ],
     },
     {
       path: "/user",

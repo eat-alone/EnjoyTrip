@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,6 +74,18 @@ public class MapController {
 			HttpHeaders header = new HttpHeaders();
 			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 			return ResponseEntity.ok().headers(header).body(attInfoList);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	 
+	@PostMapping("/saveplan")
+	public ResponseEntity<?> saveUserPlan(
+			@RequestBody @ApiParam(value = "사용자 여행 계획 저장을 위한 정보", required = true) Map<String, Object> map) throws Exception {
+		log.info("saveUserPlan map - {}", map);
+		try {
+			mapService.saveUserPlan(map);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

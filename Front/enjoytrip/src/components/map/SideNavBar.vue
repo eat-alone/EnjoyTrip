@@ -23,7 +23,14 @@ function viewClick() {
           </a>
         </li>
         <li>
-          <button @click="viewClick()" class="nav-link text-black">
+          <button
+            @click="viewClick()"
+            class="nav-link text-black btn btn-primary"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasScrolling"
+            aria-controls="offcanvasScrolling"
+          >
             <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2" /></svg>
             Dashboard
           </button>

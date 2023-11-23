@@ -18,8 +18,14 @@ function listAttraction(param, success, fail) {
   local.get("/map/attraction", { params: param }).then(success).catch(fail);
 }
 
+
+function saveUserPlan(param, success, fail) {
+  local.post("/map/saveplan", param).then(success).catch(fail);
+}
+
+
 function hotattraction(success, fail) {
   local.get(`/map/hotattraction`).then(success).catch(fail);
 }
 
-export { listSido, listGugun, listAttraction, listType, hotattraction };
+export { listSido, listGugun, listAttraction, listType, saveUserPlan, hotattraction };
