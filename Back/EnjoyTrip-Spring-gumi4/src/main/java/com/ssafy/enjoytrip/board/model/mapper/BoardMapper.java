@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.enjoytrip.board.model.BoardDto;
+import com.ssafy.enjoytrip.board.model.CommentDto;
 import com.ssafy.enjoytrip.board.model.FileInfoDto;
 
 @Mapper
@@ -17,6 +18,7 @@ public interface BoardMapper {
 	void registerFile(BoardDto boardDto) throws Exception;
 //
 	List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
+	
 //
 	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
 //
@@ -35,6 +37,12 @@ public interface BoardMapper {
 	FileInfoDto fileInfo(String saveFile) throws Exception;
 	
 	List<BoardDto> getHotArticleList() throws Exception;
+	
+	List<CommentDto> listComment(String articleNo) throws Exception;
+	
+	void registComment(CommentDto dto) throws Exception;
+	
+	void deleteComment(int commentId) throws Exception;
 	
 //	
 }

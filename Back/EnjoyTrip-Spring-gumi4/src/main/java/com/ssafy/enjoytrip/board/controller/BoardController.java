@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -39,8 +40,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.enjoytrip.board.model.BoardDto;
 import com.ssafy.enjoytrip.board.model.BoardListDto;
+import com.ssafy.enjoytrip.board.model.CommentDto;
 import com.ssafy.enjoytrip.board.model.FileInfoDto;
 import com.ssafy.enjoytrip.board.model.service.BoardService;
+import com.ssafy.enjoytrip.member.model.MemberDto;
 import com.ssafy.enjoytrip.util.FileUtil;
 
 import io.swagger.annotations.Api;
@@ -115,6 +118,27 @@ public class BoardController {
 		}
 	}
 	
+	@ApiOperation(value = "댓글 작성", notes = "새로운 댓글정보를 등록한다.")
+	@PostMapping("/registcomment")
+	public ResponseEntity<?> updateMember(@RequestBody CommentDto dto, HttpServletRequest request) {
+		try {
+			System.out.println(dto);
+			boardService.registComment(dto);
+			return new ResponseEntity<String>("댓글 등록하였습니다.", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("에러 발생!", HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "댓글삭제", notes = "댓글번호에 해당하는 댓글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("deletecomment/{commentid}")
+	public ResponseEntity<String> deleteComment(@PathVariable("commentid") @ApiParam(value = "살제할 댓글의 번호.", required = true) int commentId) throws Exception {
+		System.out.println(commentId);
+		boardService.deleteComment(commentId);
+		return ResponseEntity.ok().build();
+	}
+	
 	@ApiOperation(value = "게시판 글목록", notes = "모든 게시글의 정보를 반환한다.", response = List.class)
 	@ApiResponses({ @ApiResponse(code = 200, message = "회원목록 OK!!"), @ApiResponse(code = 404, message = "페이지없어!!"),
 			@ApiResponse(code = 500, message = "서버에러!!") })
@@ -123,10 +147,28 @@ public class BoardController {
 			@RequestParam @ApiParam(value = "게시글을 얻기위한 부가정보.", required = true) Map<String, String> map) {
 		log.info("listArticle map - {}", map);
 		try {
+			System.out.println(map);
 			BoardListDto boardListDto = boardService.listArticle(map);
 			HttpHeaders header = new HttpHeaders();
 			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 			return ResponseEntity.ok().headers(header).body(boardListDto);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@ApiOperation(value = "댓글목록", notes = "해당하는 게시글의 모든 댓글을 반환한다.", response = List.class)
+	@ApiResponses({ @ApiResponse(code = 200, message = "회원목록 OK!!"), @ApiResponse(code = 404, message = "페이지없어!!"),
+			@ApiResponse(code = 500, message = "서버에러!!") })
+	@GetMapping("/comment/{articleno}")
+	public ResponseEntity<?> listComment(
+			@PathVariable("articleno") @ApiParam(value = "댓글을 얻기위한 article_no.", required = true) String articleNo) {
+		try {
+			System.out.println("게시글 번호 : " + articleNo);
+			List<CommentDto> commentDto = boardService.listComment(articleNo);
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			return ResponseEntity.ok().headers(header).body(commentDto);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -176,6 +218,7 @@ public class BoardController {
 		boardService.modifyArticle(boardDto);
 		return ResponseEntity.ok().build();
 	}
+	
 	
 	@ApiOperation(value = "게시판 글삭제", notes = "글번호에 해당하는 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("/{articleno}")

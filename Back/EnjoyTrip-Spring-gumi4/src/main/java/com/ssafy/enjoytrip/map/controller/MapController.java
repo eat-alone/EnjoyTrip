@@ -103,7 +103,7 @@ public class MapController {
 			mapService.inviteMember(map);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<String>("이미 초대된 사람입니다. 혹은 에러입니다.", HttpStatus.OK);
+			return new ResponseEntity<String>("이미 초대된 사람입니다.", HttpStatus.OK);
 		}
 	}
 	 

@@ -141,7 +141,7 @@ const router = createRouter({
           component: BoardList,
         },
         {
-          path: "detail/:articleno?",
+          path: "detail/:articleno?/:type?",
           name: "board-detail",
           component: BoardDetail,
         },
@@ -149,6 +149,11 @@ const router = createRouter({
           path: "write/:type/:articleno",
           name: "board-write",
           component: BoardWrite,
+        },
+        {
+          path: "/announceList",
+          name: "board-announce",
+      component: () => import("@/components/board/announceList.vue"),
         },
       ],
     },

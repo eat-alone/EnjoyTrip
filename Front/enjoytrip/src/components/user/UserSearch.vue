@@ -95,17 +95,17 @@ function followings(userId) {
 
 
 <template>
-    <div class="relative isolate overflow-hidden bg-gray-900 py-16 sm:py-24 lg:py-32">
+    <div class="relative isolate overflow-hidden bg-gray-300 py-16 sm:py-24 lg:py-32">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
                 <div class="max-w-xl lg:max-w-lg">
-                    <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">전국의 친구를 검색해보세요!</h2>
+                    <h2 class="text-3xl font-bold tracking-tight text-black sm:text-4xl">전국의 친구를 검색해보세요!</h2>
                     <p class="mt-4 text-lg leading-8 text-gray-300">검색하고자 하는 친구의 ID 혹은 닉네임을 입력해주세요.</p>
                     <div class="mt-6 flex max-w-md gap-x-4">
                         <label for="email-address" class="sr-only">Email address</label>
                         <input id="email-address" name="email" type="text" autocomplete="email" required=""
                             v-model="searchId"
-                            class="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                            class="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-black shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                             placeholder="Enter your friends" />
                         <button @click="search"
                             class="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">검색</button>
@@ -113,19 +113,19 @@ function followings(userId) {
                 </div>
                 <dl class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
                     <div class="flex flex-col items-start">
-                        <div class="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
-                            <CalendarDaysIcon class="h-6 w-6 text-white" aria-hidden="true" />
+                        <div class="rounded-md bg-white/5 p-2 ring-1 ring-black/10">
+                            <CalendarDaysIcon class="h-6 w-6 text-black" aria-hidden="true" />
                         </div>
-                        <dt class="mt-4 font-semibold text-white">검색 시 주의사항..</dt>
-                        <dd class="mt-2 leading-7 text-gray-400">아직 서로 팔로우 되어있는지에 대한 View는 구현하지 못했어요 ㅠㅠ.. 마이페이지에서 확인 부탁드립니다!
+                        <dt class="mt-4 font-semibold text-black">검색 시 주의사항..</dt>
+                        <dd class="mt-2 leading-7 text-gray-700">아직 서로 팔로우 되어있는지에 대한 View는 구현하지 못했어요 ㅠㅠ.. 마이페이지에서 확인 부탁드립니다!
                         </dd>
                     </div>
                     <div class="flex flex-col items-start">
-                        <div class="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
-                            <HandRaisedIcon class="h-6 w-6 text-white" aria-hidden="true" />
+                        <div class="rounded-md bg-white/5 p-2 ring-1 ring-black/10">
+                            <HandRaisedIcon class="h-6 w-6 text-black" aria-hidden="true" />
                         </div>
-                        <dt class="mt-4 font-semibold text-white">쪽지 기능</dt>
-                        <dd class="mt-2 leading-7 text-gray-400">모르는 부분들을 친구 검색을 통해 다양한 질문으로 해결해보아요!</dd>
+                        <dt class="mt-4 font-semibold text-black">쪽지 기능</dt>
+                        <dd class="mt-2 leading-7 text-gray-700">모르는 부분들을 친구 검색을 통해 다양한 질문으로 해결해보아요!</dd>
                     </div>
                 </dl>
             </div>
@@ -145,7 +145,7 @@ function followings(userId) {
             <div v-if="userInfo.Id != person.Id">
                 <div class="flex min-w-0 gap-x-4">
                     <img class="h-12 w-12 flex-none rounded-full bg-gray-50"
-                        src='https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                        src='https://images.unsplash.com/photo-1569272955884-48ca11e03183?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDIzfHhIeFlUTUhMZ09jfHxlbnwwfHx8fHw%3D'
                         alt="" />
                     <div class="min-w-0 flex-auto">
                         <router-link :to="{ name: 'user-mypage', params: { userid: person.userId } }"
@@ -215,7 +215,7 @@ function followings(userId) {
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                 <button @click="sendData()"
-                                    class="mt-3 inline-flex w-full justify-center bg-secondary rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-500 sm:mt-0 sm:w-auto">
+                                    class="mt-3 inline-flex w-full justify-center bg-gray-300 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-500 sm:mt-0 sm:w-auto">
                                     답장 보내기
                                 </button>
                                 <button type="button"

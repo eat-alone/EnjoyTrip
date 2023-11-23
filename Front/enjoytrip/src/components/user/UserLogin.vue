@@ -38,8 +38,8 @@ const login = async () => {
 </script>
 
 <template>
-    <div
-        :style="{ 'background-size': 'cover', 'background-image': 'url(https://e0.pxfuel.com/wallpapers/397/308/desktop-wallpaper-paper-plane-cute-paper-airplane.jpg)' }">
+    <div class="opacity-75 h-screen"
+        :style="{ 'background-size': 'cover', 'background-image': 'url(https://images.unsplash.com/photo-1635466425147-d68a40663b12?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDQ0fHhIeFlUTUhMZ09jfHxlbnwwfHx8fHw%3D)' }">
 
         <!--
       This example requires updating your template:
@@ -53,7 +53,7 @@ const login = async () => {
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img class="mx-auto h-10 w-auto" src="https://cdn-icons-png.flaticon.com/128/4652/4652340.png"
                     alt="Your Company" />
-                <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">로그인
+                <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">로그인
                 </h2>
             </div>
 
@@ -78,7 +78,7 @@ const login = async () => {
                     </div>
 
                     <button type="button" @click="login"
-                        class="flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6  shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Login</button>
+                        class="flex w-full bg-gray-600 justify-center rounded-md text-white-300 px-3 py-1.5 text-sm font-semibold leading-6  shadow-sm hover:bg-black hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Login</button>
                 </form>
 
             </div>

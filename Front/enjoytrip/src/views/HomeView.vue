@@ -85,10 +85,10 @@ const getHotAttractionList = async () => {
 
 <template>
     <div class="relative">
-        <img src="https://e0.pxfuel.com/wallpapers/561/630/desktop-wallpaper-minimalist-airplane-minimalist-airplane-background-on-bat-simple-airplane.jpg"
-            class="w-full h-[30rem] object-cover" />
+        <img src="https://images.unsplash.com/photo-1698779165481-064ef9425c28?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE3OHxGem8zenVPSE42d3x8ZW58MHx8fHx8"
+            class="w-full h-[30rem] object-cover opacity-60" />
         <div
-            class="isolate absolute top-1/2 left-[40%] -translate-y-1/2 -translate-x-1/2 text-white text-4xl text-center leading-normal">
+            class="isolate absolute top-1/2 left-[40%] -translate-y-1/2 -translate-x-1/2 text-blue text-4xl text-center leading-normal">
             <p>오늘은 어디로 여행을 가고 싶나요?</p>
         </div>
         <div
@@ -100,7 +100,7 @@ const getHotAttractionList = async () => {
     </div>
 
 
-    <div>
+    <div class="">
         <h1 class="mt-20 ml-20 text-3xl font-bold leading-9 tracking-tight text-gray-900">인기 게시물
         </h1>
         <div class="bg-white">
