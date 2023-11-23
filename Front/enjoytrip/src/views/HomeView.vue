@@ -93,10 +93,8 @@ const getHotAttractionList = async () => {
         </div>
         <div
             class="isolate absolute top-[55%] left-[60%] -translate-y-1/2 -translate-x-1/2 text-white text-4xl text-center leading-normal mt-5">
-            <h2 class=""><router-link to="" class="text-black text-3xl">여행지 둘러보기</router-link></h2>
+            <h2 class=""><router-link :to="{ name: 'map' }" class="text-black text-3xl">여행지 둘러보기</router-link></h2>
         </div>
-
-
     </div>
 
 
