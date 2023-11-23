@@ -9,7 +9,7 @@
 		<result column="user_id" property="userId" />
 		<result column="user_password" property="userPwd" />
 	</resultMap>
-
+	
 	<!-- get Info -->
 	<resultMap type="memberDto" id="memberInfo">
 		<result column="id" property="Id" />
@@ -37,6 +37,20 @@
 		<result column="user_id" property="userId" />
 		<result column="user_nickname" property="userNickname" />
 	</resultMap>
+	
+	<!-- letter Dto -->
+	<resultMap type="memberLetterDto" id="letter">
+		<result column="id" property="Id" />
+		<result column="from_id" property="fromId" />
+		<result column="nickname" property="nickName" />
+		<result column="to_id" property="toId" />
+		<result column="subject" property="subject" />
+		<result column="content" property="content" />
+		<result column="send_date" property="sendDate" />
+		<result column="is_read" property="isRead" />
+	</resultMap>
+	
+	
 
 	<!-- 아이디 중복 체크 -->
 	<select id="idCheck" parameterType="memberDto" resultType="int">
@@ -154,6 +168,58 @@
 	FROM follows
 	WHERE to_userId = #{fromId} AND from_userId = #{toId}
 	</select>
+	
+	
+	<!-- 받은 쪽지 GET -->
+	<select id="receiveGetList" parameterType="string" resultMap="letter">
+	SELECT id, from_id, (select user_nickname from members where id = from_id) as nickname, (select user_nickname from members where id = to_id) as to_id, subject, content, send_date, is_read
+	FROM letters
+	WHERE to_id IN (SELECT id FROM members WHERE user_id = #{userId})
+	</select>
+	
+	<!-- 보낸 쪽지 GET -->
+	<select id="sendGetList" parameterType="string" resultMap="letter">
+	SELECT id, from_id, (select user_nickname from members where id = from_id) as nickname, (select user_nickname from members where id = to_id) as to_id, subject, content, send_date, is_read
+	FROM letters
+	WHERE from_id IN (SELECT id FROM members WHERE user_id = #{userId})
+	</select>
+	
+	<!-- 받은 쪽지(Detail) GET -->
+	<select id="getDetailLetter" parameterType="string" resultMap="letter">
+	SELECT id, from_id, (select user_nickname from members where id = from_id) as nickname, (select user_nickname from members where id = to_id) as to_id, subject, content, send_date
+	FROM letters
+	WHERE id = #{userId}
+	</select>
+	
+	
+	<!-- 쪽지 송신 -->
+	<insert id="sendLetter" parameterType="memberLetterDto">
+	INSERT INTO letters(from_id, to_id, subject, content, send_date)
+	VALUES(#{fromId}, #{toId}, #{subject}, #{content}, now());
+	</insert>
+	
+	<!-- 쪽지 읽음여부 처리 -->
+	<update id="isReadCheck" parameterType="String">
+		UPDATE letters
+		SET is_read = 1
+		WHERE id = #{contentId}
+	</update>
+	
+	
+	<!-- 쪽지 삭제 -->
+	<delete id="deleteLetter" parameterType="string">
+		DELETE
+		FROM letters
+		WHERE id = #{Id}
+	</delete>
+	
+	<!-- 읽지 않은 쪽지 개수 조회 -->
+	<select id="getReceiveCount" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM letters
+		WHERE to_id = #{userId} AND is_read = 0
+	</select>
+	
 	<!-- ADMIN -->
 	<!-- <select id="listMember" resultMap="memberAll"> select user_name, user_id, 
 		user_password, join_date from members order by join_date </select> -->

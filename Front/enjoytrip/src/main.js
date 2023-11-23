@@ -1,3 +1,4 @@
+
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import VCalendar from "v-calendar";
@@ -6,6 +7,11 @@ import App from "./App.vue";
 import router from "./router";
 import BootstrapVue3 from "bootstrap-vue-3";
 import "./index.css";
+
+import './assets/main.css';
+
+
+
 
 //BootStrap 사용
 import "bootstrap/dist/css/bootstrap.css";

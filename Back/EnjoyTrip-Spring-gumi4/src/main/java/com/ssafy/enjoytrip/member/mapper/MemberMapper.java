@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.enjoytrip.member.model.MemberLetterDto;
 import com.ssafy.enjoytrip.member.model.MemberDto;
 import com.ssafy.enjoytrip.member.model.MemberListDto;
 
@@ -26,4 +27,11 @@ public interface MemberMapper {
 	public void unFollow(String toId, String fromId) throws Exception;
 	public void following(String toId, String fromId) throws Exception;
 	public List<MemberListDto> listSearchUser(String userId) throws Exception;
+	public List<MemberLetterDto> receiveGetList(String userId) throws Exception;
+	public MemberLetterDto getDetailLetter(String userId) throws Exception;
+	public void sendLetter(MemberLetterDto dto) throws Exception;
+	public void isReadCheck(String contentId) throws Exception;
+	public void deleteLetter(String Id) throws Exception;
+	public int getReceiveCount(String userId) throws Exception;
+	public List<MemberLetterDto> sendGetList(String userId) throws Exception;
 }

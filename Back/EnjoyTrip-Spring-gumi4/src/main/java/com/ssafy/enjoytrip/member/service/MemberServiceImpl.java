@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.enjoytrip.member.mapper.MemberMapper;
+import com.ssafy.enjoytrip.member.model.MemberLetterDto;
 import com.ssafy.enjoytrip.member.model.MemberDto;
 import com.ssafy.enjoytrip.member.model.MemberListDto;
 
@@ -97,8 +98,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberMapper.listfollower(userId);
 	}
 	
-
-
 	@Override
 	public void unFollow(String toId, String fromId) throws Exception {
 		// TODO Auto-generated method stub
@@ -118,5 +117,46 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 
+	@Override
+	public List<MemberLetterDto> receiveGetList(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return memberMapper.receiveGetList(userId);
+	}
 
+	@Override
+	public MemberLetterDto getDetailLetter(String userId) throws Exception {
+		return memberMapper.getDetailLetter(userId);
+
+
+	}
+
+	@Override
+	public void sendLetter(MemberLetterDto dto) throws Exception {
+		memberMapper.sendLetter(dto);
+	}
+
+	@Override
+	public void isReadCheck(String contentId) throws Exception {
+		// TODO Auto-generated method stub
+		memberMapper.isReadCheck(contentId);
+	}
+
+	@Override
+	public void deleteLetter(String Id) throws Exception {
+		memberMapper.deleteLetter(Id);
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getReceiveCount(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return memberMapper.getReceiveCount(userId);
+	}
+
+	@Override
+	public List<MemberLetterDto> sendGetList(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return memberMapper.sendGetList(userId);
+	}
 }

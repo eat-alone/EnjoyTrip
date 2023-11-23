@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip.board.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ssafy.enjoytrip.board.model.BoardDto;
@@ -15,4 +16,5 @@ public interface BoardService {
 	void modifyArticle(BoardDto boardDto) throws Exception;
 	void deleteArticle(int articleNo) throws Exception;
 	FileInfoDto fileInfo(String saveFile) throws Exception;
+	List<BoardDto> getHotArticleList() throws Exception;
 }

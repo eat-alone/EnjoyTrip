@@ -80,6 +80,7 @@
 		order by content_type_id
 	</select>
 	
+
 	<insert id="saveTripPlan" parameterType="map">
 		insert into tripplans (create_date, start_date,end_date,creator_id)
 		values (#{createDate}, #{startDate}, #{endDate}, #{userId})
@@ -100,4 +101,11 @@
 		insert into user_plans (user_id, plan_id)
 		values(#{userId}, #{planId})
 	</insert>
+
+	<select id="hotAttractionList" resultMap="attinfo">
+		SELECT *
+		FROM enjoytrip.attraction_infos
+		ORDER BY readcount DESC LIMIT 4;
+	</select>
+
 </mapper>

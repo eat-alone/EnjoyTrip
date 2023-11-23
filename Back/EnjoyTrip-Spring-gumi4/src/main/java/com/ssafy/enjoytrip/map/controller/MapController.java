@@ -91,6 +91,22 @@ public class MapController {
 		}
 	}
 	
+	@ApiOperation(value = "인기 관광지 정보", notes = "인기 관광지 정보 4개를 반환한다.", response = List.class)
+	@GetMapping("/hotattraction")
+	public ResponseEntity<?> hotAttractionList() throws Exception {
+		try {
+			List<AttractionInfo> attInfoList = mapService.hotAttractionList();
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			System.out.println(attInfoList);
+			return ResponseEntity.ok().headers(header).body(attInfoList);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	
+	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

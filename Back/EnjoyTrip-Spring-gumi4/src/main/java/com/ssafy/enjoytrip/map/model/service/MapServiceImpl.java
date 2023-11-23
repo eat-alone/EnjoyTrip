@@ -78,4 +78,10 @@ public class MapServiceImpl implements MapService {
 		mapMapper.userAndPlan(map);
 	}
 	
+
+	public List<AttractionInfo> hotAttractionList() throws Exception {
+		return mapMapper.hotAttractionList();
+	}
+
+
 }
