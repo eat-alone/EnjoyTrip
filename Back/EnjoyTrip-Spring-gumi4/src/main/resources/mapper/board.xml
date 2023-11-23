@@ -16,6 +16,17 @@
 		<result column="thumbnail" property="thumbnail"/>
 	</resultMap>
 	
+	<!-- 댓글 resultMap -->
+	<resultMap type="commentDto" id="comment">
+		<result column="id" property="id"/>
+		<result column="board_id" property="boardId"/>
+		<result column="user_id" property="userId"/>  <!-- 댓글 삭제 권한 조회를 위한 id값  -->
+		<result column="user_nickname" property="userNickname"/>
+		<result column="content" property="content"/>
+		<result column="write_date" property="writeDate"/>
+	
+	</resultMap>
+	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
 		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
 	</resultMap>
@@ -33,6 +44,10 @@
 		<selectKey resultType="int" keyProperty="articleNo" order="AFTER">
 			select last_insert_id()
 		</selectKey>
+	</insert>
+	
+	<insert id="registComment" parameterType="commentDto">
+		INSERT INTO comments(board_id, user_id, content, write_date) VALUES(#{boardId}, #{userId}, #{content}, now());
 	</insert>
 	
 	<insert id="registerFile" parameterType="boardDto">
@@ -62,6 +77,14 @@
 		<include refid="search"></include>
 		order by b.article_no desc
 		limit #{start}, #{listsize}
+	</select>
+	
+	<!-- 게시글번호로 댓글 조회 쿼리 -->
+	<select id="listComment" parameterType="string" resultMap="comment">
+		SELECT c.id, c.user_id, (SELECT user_nickname FROM members WHERE id = c.user_id) user_nickname, c.content, c.write_date
+		FROM comments c
+		WHERE board_id = #{articleNo}
+		ORDER BY write_date DESC;
 	</select>
 	
 	
@@ -118,6 +141,12 @@
 	<delete id="deleteArticle" parameterType="int">
 		delete from boards
 		where article_no = #{articleNo}
+	</delete>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM comments
+		WHERE id = #{commentId}
 	</delete>
 
 </mapper>

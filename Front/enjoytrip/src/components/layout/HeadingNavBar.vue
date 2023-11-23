@@ -24,51 +24,13 @@ import {
 } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from "@heroicons/vue/20/solid";
 
-const products = [
-  {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
-  },
-  {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-  {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
-];
 
 const mobileMenuOpen = ref(false);
 
-import { useMenuStore } from "@/stores/menu";
 import { useMemberStore } from "@/stores/member";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 
-const menuStore = useMenuStore();
 const memberStore = useMemberStore();
 
 const { isLogin } = storeToRefs(memberStore);
@@ -118,17 +80,17 @@ const logout = () => {
 </script>
 
 <template>
-  <header class="bg-white">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-      <div class="flex lg:flex-1">
+  <header class="bg-gray-200">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between p-1 lg:px-8" aria-label="Global">
+      <div class="flex sm:flex-auto">
         <router-link :to="{ name: 'home' }" class="-m-1.5 p-1.5">
           <span class="sr-only">Your Company</span>
-          <img class="h-8 w-auto" src="https://cdn-icons-png.flaticon.com/128/4652/4652340.png" alt="" />
+          <img class="h-10 w-auto" src="https://cdn-icons-png.flaticon.com/128/4652/4652340.png" alt="" />
         </router-link>
-        <h3 class="font-semibold text-xl ml-2 mt-1"> 여행의 시작점</h3>
+        <h3 class="font-bold text-2xl ml-2 mt-2"> 걸어서 세계속으로</h3>
       </div>
       <PopoverGroup class="hidden lg:flex lg:gap-x-12">
-        <router-link :to="{ name: 'home' }" href="#"
+        <router-link :to="{ name: 'board-announce' }" href="#"
           class="text-sm font-semibold leading-6 text-gray-900">공지사항</router-link>
         <router-link :to="{ name: 'board' }" href="#" class="text-sm font-semibold leading-6 text-gray-900">자유
           게시판</router-link>
@@ -142,7 +104,7 @@ const logout = () => {
         <span class="sr-only">Your Company</span>
         <div class="relative">
           <router-link :to="{ name: 'letter-receive' }" class="-m-1.5 p-1.5">
-            <img class="h-8 w-auto mt-1" src="https://cdn-icons-png.flaticon.com/128/12328/12328821.png" alt="" />
+            <img class="h-8 w-auto" src="https://cdn-icons-png.flaticon.com/128/12328/12328821.png" alt="" />
           </router-link>
           <p v-if="noReadLetterCountvalue"
             class="absolute top-4 left-5 text-xs p-1 px-2 border rounded-circle bg-danger text-white ">{{

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.enjoytrip.board.model.BoardDto;
 import com.ssafy.enjoytrip.board.model.BoardListDto;
+import com.ssafy.enjoytrip.board.model.CommentDto;
 import com.ssafy.enjoytrip.board.model.FileInfoDto;
 import com.ssafy.enjoytrip.board.model.mapper.BoardMapper;
 
@@ -40,11 +41,13 @@ public class BoardServiceImpl implements BoardService {
 		param.put("word", map.get("word") == null ? "" : map.get("word"));
 		int currentPage = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno"));
 		int sizePerPage = Integer.parseInt(map.get("spp") == null ? "20" : map.get("spp"));
-		int boardTpye = Integer.parseInt(map.get("boardtpye") == null ? "1" : map.get("boardtype"));
+		System.out.println("??");
+		int boardtype = Integer.parseInt(map.get("boardtype") == null ? "1" : map.get("boardtype"));
+		System.out.println("??");
 		int start = currentPage * sizePerPage - sizePerPage;
 		param.put("start", start);
 		param.put("listsize", sizePerPage);
-		param.put("boardtype", boardTpye);
+		param.put("boardtype", boardtype);
 
 		String key = map.get("key");
 		param.put("key", key == null ? "" : key);
@@ -63,7 +66,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		return boardListDto;
 	}
-
+	
 
 	@Override
 	public BoardDto getArticle(int articleNo) throws Exception {
@@ -102,5 +105,21 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardDto> getHotArticleList() throws Exception {
 		return boardMapper.getHotArticleList();
 	}
+
+	@Override
+	public List<CommentDto> listComment(String articleNo) throws Exception {
+		return boardMapper.listComment(articleNo);
+	}
+
+	@Override
+	public void registComment(CommentDto dto) throws Exception {
+		boardMapper.registComment(dto);
+	}
+
+	@Override
+	public void deleteComment(int commentId) throws Exception {
+		boardMapper.deleteComment(commentId);
+	}
+
 
 }

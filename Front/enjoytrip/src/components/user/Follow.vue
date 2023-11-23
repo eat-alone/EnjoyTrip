@@ -159,7 +159,7 @@ const getFollow = async () => {
                             </div>
                             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                 <button @click="sendData()"
-                                    class="mt-3 inline-flex w-full justify-center bg-secondary rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-500 sm:mt-0 sm:w-auto">
+                                    class="mt-3 inline-flex w-full justify-center bg-gray-200 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-500 sm:mt-0 sm:w-auto">
                                     답장 보내기
                                 </button>
                                 <button type="button"
