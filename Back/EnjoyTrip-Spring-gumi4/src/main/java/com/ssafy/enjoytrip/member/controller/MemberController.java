@@ -75,15 +75,12 @@ public class MemberController {
 			@RequestBody @ApiParam(value = "로그인을 위한 부가정보.", required = true) MemberDto dto) {
 
 		log.debug("login user : {}", dto);
-		System.out.println(dto);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
-			System.out.println("*****");
 			MemberDto loginUser = memberService.login(dto);
-			System.out.println("------");
 			//			resultDto = memberService.login(dto);
-			System.out.println(loginUser);
+			System.out.println("asdf"+loginUser);
 			
 			if(loginUser != null) {
 				String accessToken = jwtUtil.createAccessToken(loginUser.getUserId());

@@ -80,4 +80,24 @@
 		order by content_type_id
 	</select>
 	
+	<insert id="saveTripPlan" parameterType="map">
+		insert into tripplans (create_date, start_date,end_date,creator_id)
+		values (#{createDate}, #{startDate}, #{endDate}, #{userId})
+		<selectKey resultType="int" keyProperty="planId" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<insert id="saveTripDetail" parameterType="map">
+		insert into plan_details (plan_id, content_type_id, attraction_id, date, price, duration_time, memo)
+		values	
+	<foreach collection="planList" item="plan" separator=" , ">
+		(#{planId}, #{plan.contentTypeId}, #{plan.attractionId}, #{plan.date}, #{plan.price}, #{plan.durationTime}, #{plan.memo})
+	</foreach>
+	</insert>
+	
+	<insert id="userAndPlan" parameterType="map">
+		insert into user_plans (user_id, plan_id)
+		values(#{userId}, #{planId})
+	</insert>
 </mapper>

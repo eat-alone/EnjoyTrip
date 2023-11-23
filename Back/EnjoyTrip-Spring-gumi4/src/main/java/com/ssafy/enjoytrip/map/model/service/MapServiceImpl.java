@@ -67,4 +67,15 @@ public class MapServiceImpl implements MapService {
 		return attlist;
 	}
 
+	@Override
+	public void saveUserPlan(Map<String, Object> map) throws Exception {
+		System.out.println(map);
+		map.put("planId", null);
+		int userId = Integer.parseInt((String) map.get("userId"));
+		map.put("userId", userId);
+		mapMapper.saveTripPlan(map);
+		mapMapper.saveTripDetail(map);
+		mapMapper.userAndPlan(map);
+	}
+	
 }

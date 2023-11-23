@@ -1,14 +1,14 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import { useRouter } from "vue-router";
 import { listSido, listGugun, listAttraction, listType } from "@/api/map.js";
 import PageNavigation from "../common/PageNavigation.vue";
-import { storeToRefs } from "pinia";
 import { useTripStore } from "@/stores/trip";
+import { useMemberStore } from "@/stores/member";
 
+// const emit = defineEmits({planer : object});
 const tripStore = useTripStore();
-const { planList, addPlan, delPlan } = tripStore;
-
+const { planList, addPlan, delPlan, savePlan } = tripStore;
+const { userInfo } = useMemberStore();
 const sidoList = ref([]);
 const gugunList = ref([{ text: "구/군 선택", value: "" }]);
 const typeList = ref([]);
@@ -131,6 +131,14 @@ const onPageChange = (val) => {
   param.value.pgno = val;
   getAttractionList();
 };
+
+const savePlan1 = () => {
+  if (userInfo == null) {
+    alert("로그인 후 이용 가능합니다.");
+  } else {
+    savePlan(userInfo.id);
+  }
+};
 </script>
 
 <template>
@@ -152,8 +160,9 @@ const onPageChange = (val) => {
         <b-form-input id="input-4" v-model="param.word" placeholder="키워드 입력"></b-form-input>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="submit" variant="primary">검색</b-button>
+      <b-button type="reset" variant="danger">초기화</b-button>
+      <b-button variant="primary" @click="savePlan1">일정 저장</b-button>
     </b-form>
     <template v-for="attraction in attractionList" :key="attraction.contentId">
       <b-card class="mt-3" :header="attraction.title ? attraction.title : attraction.addr1">
