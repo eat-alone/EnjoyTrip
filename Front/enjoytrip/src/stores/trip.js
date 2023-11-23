@@ -65,8 +65,7 @@ export const useTripStore = defineStore("tripStore", () => {
     console.log("ddddd", id);
     for (let i = 0; i < planList.value.length; i++) {
       if (planList.value[i].contentId == id) {
-        planList.value[i] = {};
-        planList.value[i].page = 0;
+        planList.value.splice(i, 1);
         break;
       }
     }

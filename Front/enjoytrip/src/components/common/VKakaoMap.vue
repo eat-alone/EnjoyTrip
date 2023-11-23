@@ -30,20 +30,27 @@ watch(
   () => planList,
   () => {
     console.log("맵에서 변화감지", planList);
-    planPositions.value = [];
-    planList.forEach((station) => {
-      let obj = {};
-      obj.latlng = new kakao.maps.LatLng(station.latitude, station.longitude);
-      obj.title = station.statNm;
+    if (planList.length == 0) {
+      console.log("a");
+      deletePlanMarkers();
+    } else {
+      planPositions.value = [];
+      planList.forEach((station) => {
+        let obj = {};
+        obj.latlng = new kakao.maps.LatLng(station.latitude, station.longitude);
+        obj.title = station.statNm;
 
-      planPositions.value.push(obj);
-    });
-    loadPlanMarkers();
+        planPositions.value.push(obj);
+      });
+      loadPlanMarkers();
+    }
   },
   { deep: true }
 );
 
 const loadPlanMarkers = () => {
+  deletePlanMarkers();
+
   const imgSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
   const imgSize = new kakao.maps.Size(30, 40);
   const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize);
@@ -69,6 +76,12 @@ const loadPlanMarkers = () => {
   );
 
   map.setBounds(bounds);
+};
+
+const deletePlanMarkers = () => {
+  if (planMarkers.value.length > 0) {
+    planMarkers.value.forEach((marker) => marker.setMap(null));
+  }
 };
 
 watch(
