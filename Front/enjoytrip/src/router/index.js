@@ -109,7 +109,7 @@ const router = createRouter({
           component: BoardList,
         },
         {
-          path: "detail/:articleno",
+          path: "detail/:articleno?",
           name: "board-detail",
           component: BoardDetail,
         },

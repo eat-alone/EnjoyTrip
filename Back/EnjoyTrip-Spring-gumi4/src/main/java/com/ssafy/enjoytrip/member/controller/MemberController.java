@@ -188,7 +188,24 @@ public class MemberController {
 		if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
 			try {
 				List<MemberLetterDto> letterDto = memberService.receiveGetList(userId);
-				System.out.println(letterDto);
+				System.out.println("+++letter == " + letterDto);
+				HttpHeaders header = new HttpHeaders();
+				header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+				return ResponseEntity.ok().headers(header).body(letterDto);
+			} catch (Exception e) {
+				return exceptionHandling(e);
+			}
+		}
+		return null;
+	}
+	
+	@GetMapping("/sendlist/{userId}")
+	public ResponseEntity<?> sendGetList(@PathVariable("userId") String userId, HttpServletRequest request) {
+		System.out.println(userId);
+		if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
+			try {
+				List<MemberLetterDto> letterDto = memberService.sendGetList(userId);
+				System.out.println("+++letter == " + letterDto);
 				HttpHeaders header = new HttpHeaders();
 				header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 				return ResponseEntity.ok().headers(header).body(letterDto);
@@ -214,6 +231,25 @@ public class MemberController {
 			}
 		}
 		return null;
+	}
+	
+	
+	
+	@GetMapping("/getReceiveCount/{userId}")
+	public ResponseEntity<?> getReceiveCount(@PathVariable("userId") String userId) {
+		try {
+			System.out.println(userId);
+			int value = memberService.getReceiveCount(userId);
+			if(value > 0) {
+				return new ResponseEntity<String>(value + "건 읽지않은 메시지가 있습니다.", HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>("수신한 메시지가 없습니다.", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<String>("수신 과정 에러 발생!", HttpStatus.OK);
+		}
 	}
 	
 	
@@ -267,6 +303,7 @@ public class MemberController {
 	@GetMapping("/following/{toId}/{fromId}")
 	public ResponseEntity<?> following(@PathVariable("toId") String toId, @PathVariable("fromId") String fromId) {
 		try {
+			System.out.println(toId + " : " + fromId);
 			memberService.following(toId, fromId);
 			return new ResponseEntity<String>("팔로우 완료.", HttpStatus.OK);
 		} catch (Exception e) {
@@ -294,6 +331,22 @@ public class MemberController {
 		}
 	}
 
+	
+	@GetMapping("/deleteLetter/{id}")
+	public ResponseEntity<?> deleteLetter(@PathVariable("id") String Id) {
+		try {
+			memberService.deleteLetter(Id);
+			return new ResponseEntity<String>("쪽지 삭제 성공!", HttpStatus.OK);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<String>("에러 발생!", HttpStatus.OK);
+		}
+	}
+	
+	
+	
 	@PostMapping("/updateMember")
 	public ResponseEntity<?> updateMember(@RequestBody MemberDto dto, HttpServletRequest request) {
 		log.info("사용 가능한 토큰!!!");

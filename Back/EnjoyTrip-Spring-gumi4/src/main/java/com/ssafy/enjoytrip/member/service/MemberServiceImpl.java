@@ -140,4 +140,23 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		memberMapper.isReadCheck(contentId);
 	}
+
+	@Override
+	public void deleteLetter(String Id) throws Exception {
+		memberMapper.deleteLetter(Id);
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getReceiveCount(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return memberMapper.getReceiveCount(userId);
+	}
+
+	@Override
+	public List<MemberLetterDto> sendGetList(String userId) throws Exception {
+		// TODO Auto-generated method stub
+		return memberMapper.sendGetList(userId);
+	}
 }

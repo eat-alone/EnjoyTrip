@@ -26,6 +26,7 @@ const loginUser = ref({
 const login = async () => {
 
     await userLogin(loginUser.value);
+    console.log(loginUser.value)
     let token = sessionStorage.getItem("accessToken");
     console.log(token);
     if (isLogin) {

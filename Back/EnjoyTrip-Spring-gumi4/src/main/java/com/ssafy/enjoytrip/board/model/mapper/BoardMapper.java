@@ -34,5 +34,7 @@ public interface BoardMapper {
 	
 	FileInfoDto fileInfo(String saveFile) throws Exception;
 	
+	List<BoardDto> getHotArticleList() throws Exception;
+	
 //	
 }

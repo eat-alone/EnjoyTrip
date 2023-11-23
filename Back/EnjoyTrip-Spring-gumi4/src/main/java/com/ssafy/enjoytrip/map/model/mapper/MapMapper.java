@@ -14,5 +14,5 @@ public interface MapMapper {
 	List<SidoGugunCodeDto> getContentType() throws SQLException;
 	List<AttractionInfo> getAttInfoList(Map<String, Object> param) throws SQLException;
 	int getTotalAttCount(Map<String, Object> param) throws SQLException;
-
+	List<AttractionInfo> hotAttractionList() throws Exception;
 }
