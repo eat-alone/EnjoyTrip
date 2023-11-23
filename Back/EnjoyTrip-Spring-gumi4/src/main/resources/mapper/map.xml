@@ -80,4 +80,10 @@
 		order by content_type_id
 	</select>
 	
+	<select id="hotAttractionList" resultMap="attinfo">
+		SELECT *
+		FROM enjoytrip.attraction_infos
+		ORDER BY readcount DESC LIMIT 4;
+	</select>
+	
 </mapper>

@@ -177,6 +177,12 @@
 	WHERE to_id IN (SELECT id FROM members WHERE user_id = #{userId})
 	</select>
 	
+	<!-- 보낸 쪽지 GET -->
+	<select id="sendGetList" parameterType="string" resultMap="letter">
+	SELECT id, from_id, (select user_nickname from members where id = from_id) as nickname, (select user_nickname from members where id = to_id) as to_id, subject, content, send_date, is_read
+	FROM letters
+	WHERE from_id IN (SELECT id FROM members WHERE user_id = #{userId})
+	</select>
 	
 	<!-- 받은 쪽지(Detail) GET -->
 	<select id="getDetailLetter" parameterType="string" resultMap="letter">
@@ -184,6 +190,7 @@
 	FROM letters
 	WHERE id = #{userId}
 	</select>
+	
 	
 	<!-- 쪽지 송신 -->
 	<insert id="sendLetter" parameterType="memberLetterDto">
@@ -199,6 +206,19 @@
 	</update>
 	
 	
+	<!-- 쪽지 삭제 -->
+	<delete id="deleteLetter" parameterType="string">
+		DELETE
+		FROM letters
+		WHERE id = #{Id}
+	</delete>
+	
+	<!-- 읽지 않은 쪽지 개수 조회 -->
+	<select id="getReceiveCount" parameterType="string" resultType="int">
+		SELECT COUNT(*)
+		FROM letters
+		WHERE to_id = #{userId} AND is_read = 0
+	</select>
 	
 	<!-- ADMIN -->
 	<!-- <select id="listMember" resultMap="memberAll"> select user_name, user_id, 

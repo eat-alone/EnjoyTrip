@@ -67,4 +67,9 @@ public class MapServiceImpl implements MapService {
 		return attlist;
 	}
 
+	@Override
+	public List<AttractionInfo> hotAttractionList() throws Exception {
+		return mapMapper.hotAttractionList();
+	}
+
 }

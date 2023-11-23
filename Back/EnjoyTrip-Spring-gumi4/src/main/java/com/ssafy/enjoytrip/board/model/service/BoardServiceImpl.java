@@ -98,4 +98,9 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.fileInfo(saveFile);
 	}
 
+	@Override
+	public List<BoardDto> getHotArticleList() throws Exception {
+		return boardMapper.getHotArticleList();
+	}
+
 }

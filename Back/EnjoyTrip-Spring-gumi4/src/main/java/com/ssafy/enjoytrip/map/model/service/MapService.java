@@ -14,5 +14,5 @@ public interface MapService {
 	List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception;
 	List<SidoGugunCodeDto> getContentType() throws Exception;
 	AttractionInfoList getAttInfoList(Map<String, String> map) throws Exception;
-
+	List<AttractionInfo> hotAttractionList() throws Exception;
 }

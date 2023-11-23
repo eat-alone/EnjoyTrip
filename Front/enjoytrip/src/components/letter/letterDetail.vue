@@ -5,7 +5,8 @@ import { useRouter, useRoute } from "vue-router";
 import { getDetail, sendLetters, isReadCheck } from "@/api/letter";
 import { useMemberStore } from "@/stores/member";
 import { httpStatusCode } from "@/util/http-status";
-import router from "../../router";
+
+const router = useRouter();
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
 
@@ -35,6 +36,7 @@ const route = useRoute();
 
 
 function returnletter() {
+    console.log("목록으로 이동!")
     router.push({ name: 'letter-receive' })
 }
 

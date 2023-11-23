@@ -31,4 +31,7 @@ public interface MemberMapper {
 	public MemberLetterDto getDetailLetter(String userId) throws Exception;
 	public void sendLetter(MemberLetterDto dto) throws Exception;
 	public void isReadCheck(String contentId) throws Exception;
+	public void deleteLetter(String Id) throws Exception;
+	public int getReceiveCount(String userId) throws Exception;
+	public List<MemberLetterDto> sendGetList(String userId) throws Exception;
 }

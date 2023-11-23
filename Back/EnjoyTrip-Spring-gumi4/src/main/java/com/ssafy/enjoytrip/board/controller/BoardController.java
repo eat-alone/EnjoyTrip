@@ -132,6 +132,22 @@ public class BoardController {
 		}
 	}
 	
+	@ApiOperation(value = "게시판 인기 글목록", notes = "인기 게시글의 4개를 반환한다.", response = List.class)
+	@ApiResponses({ @ApiResponse(code = 200, message = "회원목록 OK!!"), @ApiResponse(code = 404, message = "페이지없어!!"),
+			@ApiResponse(code = 500, message = "서버에러!!") })
+	@GetMapping("/getHotArticleList")
+	public ResponseEntity<?> getHotArticleList() {
+		try {
+			List<BoardDto> boardListDto = boardService.getHotArticleList();
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			System.out.println(boardListDto);
+			return ResponseEntity.ok().headers(header).body(boardListDto);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
 	@ApiOperation(value = "게시판 글보기", notes = "글번호에 해당하는 게시글의 정보를 반환한다.", response = BoardDto.class)
 	@GetMapping("/{articleno}")
 	public ResponseEntity<BoardDto> getArticle(

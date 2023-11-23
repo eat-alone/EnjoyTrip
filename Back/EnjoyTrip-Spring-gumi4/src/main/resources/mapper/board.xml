@@ -64,6 +64,13 @@
 		limit #{start}, #{listsize}
 	</select>
 	
+	
+	<select id="getHotArticleList" resultMap="article">
+		SELECT article_no, user_id, subject, content, hit, register_time, board_type, thumbnail
+		FROM boards
+		ORDER BY hit DESC LIMIT 4;
+	</select>
+	
 	<select id="getTotalArticleCount" parameterType="map" resultType="int">
 		select count(article_no)
 		from boards
