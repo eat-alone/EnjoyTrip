@@ -137,7 +137,12 @@ const router = createRouter({
       component: MapView,
       children: [
         {
-          path: "/test",
+          path: "/myplan",
+          name: "myplan",
+          component: MyPlan,
+        },
+        {
+          path: "/test/:isNew",
           name: "test",
           component: TestView,
           children: [
@@ -150,11 +155,6 @@ const router = createRouter({
               path: "/mapsearch",
               name: "mapsearch",
               component: MapSearch,
-            },
-            {
-              path: "/myplan",
-              name: "myplan",
-              component: MyPlan,
             },
             {
               path: "/tripplan",
