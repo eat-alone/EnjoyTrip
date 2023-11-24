@@ -1,9 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import MapSearch from "../components/map/MapSearch.vue";
 import TripPlan from "../components/map/TripPlan.vue";
 import selectDate from "../components/map/selectDate.vue";
 import { useTripStore } from "@/stores/trip";
+import { useRoute, useRouter } from "vue-router";
+const route = useRoute();
+const { isNew } = route.params;
 
 const tripStore = useTripStore();
 const {
@@ -17,24 +20,38 @@ const {
   planName,
   setPlanName,
   setDate,
+  startDate,
+  endDate,
 } = tripStore;
 
 const currDay = 24 * 60 * 60 * 1000;
 
-const startDate = ref("");
-const endDate = ref("");
+const startDate2 = ref("");
+const endDate2 = ref("");
 const idate = ref(0);
 const page = ref(1);
 const attInfo = ref();
 
+onMounted(() => {
+  if (isNew == "yes") {
+    startDate2.value = "";
+    endDate2.value = "";
+  } else {
+    console.log(planList);
+    if (planList.length != 0) {
+      dateSelect(startDate, endDate, planName);
+    }
+  }
+});
+
 const dateSelect = (start, end, name) => {
-  startDate.value = start;
-  endDate.value = end;
+  startDate2.value = start;
+  endDate2.value = end;
   idate.value = (new Date(end) - new Date(start)) / currDay + 1;
   pageChange(1);
   setPlanName(name);
   setDate(start, end);
-  console.log("date selected", startDate, endDate, idate);
+  console.log("date selected", startDate2, endDate2, idate);
 };
 
 const getTargetDate = (date, num) => {
@@ -45,8 +62,8 @@ const getTargetDate = (date, num) => {
 
 const pageChange = (num) => {
   page.value = num;
-  getTargetDate(startDate.value, num);
-  changeDate(getTargetDate(startDate.value, num));
+  getTargetDate(startDate2.value, num);
+  changeDate(getTargetDate(startDate2.value, num));
   setPage(num);
 };
 
@@ -57,10 +74,10 @@ const selectAttinfo = (att) => {
 
 <template>
   <div>
-    <template v-if="!startDate">
+    <template v-if="!startDate2">
       <selectDate @date-select="dateSelect" />
     </template>
-    <template v-if="startDate">
+    <template v-if="startDate2">
       <MapSearch />
 
       <div
@@ -90,7 +107,7 @@ const selectAttinfo = (att) => {
           <template v-for="i in idate" :key="i">
             <template v-if="page == i">
               <div>
-                <TripPlan :date="startDate" :page="i" />
+                <TripPlan :date="startDate2" :page="i" />
               </div>
             </template>
           </template>

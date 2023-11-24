@@ -50,6 +50,7 @@ export const useTripStore = defineStore("tripStore", () => {
         break;
       }
     }
+
     if (flag == 0) {
       attInfo.date = planDate.value;
       attInfo.page = pageNum.value;
@@ -104,6 +105,7 @@ export const useTripStore = defineStore("tripStore", () => {
         price: planList.value[i].price,
         durationTime: planList.value[i].durationTime,
         memo: planList.value[i].memo,
+        page: planList.value[i].page,
       });
     }
     param.createDate = createTime;
@@ -119,6 +121,17 @@ export const useTripStore = defineStore("tripStore", () => {
         console.error(error);
       }
     );
+  };
+
+  const changePlan = (plan) => {
+    console.log("플랜교체페이지");
+    planList.value = [];
+    planList.value = plan.planDetailDtoList;
+    console.log("교체할 플랜", plan);
+    console.log("교체됐나요", planList.value);
+    planName.value = plan.planName;
+    startDate.value = plan.startDate;
+    endDate.value = plan.endDate;
   };
 
   return {
@@ -138,5 +151,6 @@ export const useTripStore = defineStore("tripStore", () => {
     setAdditionalParam,
     tripSearchList,
     setTripSearchList,
+    changePlan,
   };
 });
