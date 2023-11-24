@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.enjoytrip.board.model.BoardListDto;
 import com.ssafy.enjoytrip.map.model.AttractionInfo;
 import com.ssafy.enjoytrip.map.model.AttractionInfoList;
-import com.ssafy.enjoytrip.map.model.PlanListDto;
+import com.ssafy.enjoytrip.map.model.PlanInfoDto;
 import com.ssafy.enjoytrip.map.model.SidoGugunCodeDto;
 import com.ssafy.enjoytrip.map.model.service.MapService;
 
@@ -86,7 +86,7 @@ public class MapController {
 			@PathVariable("userId") @ApiParam(value = "플랜 정보를 얻기 위한 아이디값", required = true) String userId) throws Exception {
 		try {
 			System.out.println(userId +"*************8");
-			List<PlanListDto> attInfoList = mapService.getMyPlanList(userId);
+			List<PlanInfoDto> attInfoList = mapService.getMyPlanList(userId);
 			HttpHeaders header = new HttpHeaders();
 			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 			return ResponseEntity.ok().headers(header).body(attInfoList);

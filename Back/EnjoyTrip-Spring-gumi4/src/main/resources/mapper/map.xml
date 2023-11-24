@@ -13,7 +13,7 @@
 		<result column="content_name" property="contentName"/>
 	</resultMap>
 	
-	<resultMap type="planListDto" id="plan">
+	<resultMap type="planInfoDto" id="plan">
 		<result column="plan_id" property="planId"/>
 		<result column="plan_name" property="planName"/>
 		<result column="is_public" property="isPublic"/>
@@ -22,6 +22,22 @@
 		<result column="end_date" property="endDate"/>
 		<result column="creator_id" property="creatorId"/>
 		<result column="num" property="teamCnt"/>
+	</resultMap>
+	
+	
+	<resultMap type="planInfoDto" id="planA" extends="plan">
+		<collection property="planDetailDtoList" column="plan_id" javaType="list" ofType="planDetailDto" select="planDetailList"/>
+	</resultMap>	
+	
+
+	<resultMap type="planDetailDto" id="planDetail">
+		<result column="content_type_id" property="contentTypeId"/>
+		<result column="attraction_id" property="attractionId"/>
+		<result column="date" property="date"/>
+		<result column="price" property="price"/>
+		<result column="duration_time" property="durationTime"/>
+		<result column="memo" property="memo"/>
+		<result column="page" property="page"/>
 	</resultMap>
 	
 	<resultMap type="AttractionInfo" id="attinfo">
@@ -91,11 +107,17 @@
 		order by content_type_id
 	</select>
 	
-	<select id="getMyPlanList" parameterType="string" resultMap="plan">
+	<select id="getMyPlanList" parameterType="string" resultMap="planA">
 		SELECT t.plan_id, t.plan_name, t.create_date, t.start_date, t.end_date, (SELECT user_nickname FROM members WHERE id = t.creator_id) creator_id, (SELECT COUNT(*) FROM user_plans u WHERE u.plan_id = t.plan_id) num
 		FROM tripplans t
 		WHERE t.plan_id IN (SELECT plan_id FROM enjoytrip.user_plans WHERE user_Id = (SELECT id FROM members WHERE user_id = #{userId}));
 	</select>
+	
+	<select id="planDetailList" resultMap="planDetail">
+		select content_type_id, attraction_id, date,price,duration_time,memo,page
+		from plan_details
+		where plan_id = #{planId}
+	</select> 
 	
 	<select id="inviteMember" parameterType="map">
 		INSERT INTO user_plans VALUES(#{userId}, #{nowId})
@@ -111,10 +133,10 @@
 	</insert>
 	
 	<insert id="saveTripDetail" parameterType="map">
-		insert into plan_details (plan_id, content_type_id, attraction_id, date, price, duration_time, memo)
+		insert into plan_details (plan_id, content_type_id, attraction_id, date, price, duration_time, memo, page)
 		values	
 	<foreach collection="planList" item="plan" separator=" , ">
-		(#{planId}, #{plan.contentTypeId}, #{plan.attractionId}, #{plan.date}, #{plan.price}, #{plan.durationTime}, #{plan.memo})
+		(#{planId}, #{plan.contentTypeId}, #{plan.attractionId}, #{plan.date}, #{plan.price}, #{plan.durationTime}, #{plan.memo}, #{plan.page})
 	</foreach>
 	</insert>
 	

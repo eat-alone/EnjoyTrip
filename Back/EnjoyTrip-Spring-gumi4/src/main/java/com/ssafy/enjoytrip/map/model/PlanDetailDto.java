@@ -14,6 +14,7 @@ public class PlanDetailDto {
 	private String contentTypeId;
 	private String attractionId;
 	private String date;
+	private String page;
 	private String price;
 	private String durationTime;
 	private String memo;
