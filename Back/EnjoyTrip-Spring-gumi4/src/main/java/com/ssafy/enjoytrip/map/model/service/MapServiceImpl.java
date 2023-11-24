@@ -10,7 +10,7 @@ import com.ssafy.enjoytrip.board.model.BoardDto;
 import com.ssafy.enjoytrip.board.model.BoardListDto;
 import com.ssafy.enjoytrip.map.model.AttractionInfo;
 import com.ssafy.enjoytrip.map.model.AttractionInfoList;
-import com.ssafy.enjoytrip.map.model.PlanListDto;
+import com.ssafy.enjoytrip.map.model.PlanInfoDto;
 import com.ssafy.enjoytrip.map.model.SidoGugunCodeDto;
 import com.ssafy.enjoytrip.map.model.mapper.MapMapper;
 
@@ -85,7 +85,8 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<PlanListDto> getMyPlanList(String userId) throws Exception {
+	public List<PlanInfoDto> getMyPlanList(String userId) throws Exception {
+		
 		return mapMapper.getMyPlanList(userId);
 	}
 

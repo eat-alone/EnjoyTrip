@@ -11,7 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class PlanListDto {
+public class PlanInfoDto {
 	private String planId;
 	private String planName;
 	private String isPublic;
